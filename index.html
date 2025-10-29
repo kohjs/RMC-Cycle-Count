@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CK3 Screen Flow - Reject Cycle Count System (Complete 5-Phase Workflow)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .flow-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title h2 {
+            color: #667eea;
+            font-size: 1.8em;
+        }
+
+        .section-title p {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .screens-row {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .ck3-device {
+            background: #2c2c2c;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            width: 320px;
+        }
+
+        .device-header {
+            background: #f4d03f;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            font-weight: bold;
+            color: #000;
+            position: relative;
+        }
+
+        .barcode {
+            background: #000;
+            color: white;
+            padding: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+            letter-spacing: 2px;
+        }
+
+        .screen {
+            background: #e8f5e9;
+            min-height: 400px;
+            border: 3px solid #555;
+            border-radius: 0 0 8px 8px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .screen-header {
+            background: #1976d2;
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 15px -20px;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen-title {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .screen-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+
+        .content-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .content-title {
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #1976d2;
+            border-radius: 5px;
+            font-size: 1em;
+            margin: 10px 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+        }
+
+        .btn-secondary {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #0b7dda;
+        }
+
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .list-item {
+            background: #f5f5f5;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border-left: 4px solid #1976d2;
+        }
+
+        .lot-item {
+            background: #e3f2fd;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+            font-size: 0.95em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        .device-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 0 0 15px 15px;
+            margin-top: 10px;
+        }
+
+        .device-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4a4a4a;
+            border: 2px solid #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .reason-option {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reason-option:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 CK3 Handheld Device - Reject Cycle Count System (5-Phase Complete Workflow)</h1>
+
+       
+
+        <div style="background: #fce4ec; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #e91e63;">
+            <h3 style="color: #c2185b; margin-bottom: 10px;">🚨 Error Scenarios Handled</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li><strong>Wrong Pallet Scanned:</strong> Pallet exists but not in current count list → Display error, prompt rescan</li>
+                <li><strong>Invalid Bundle Scanned:</strong> Bundle doesn't belong to current pallet's sample list → Rejected, no action taken</li>
+                <li><strong>Duplicate Bundle Scan:</strong> Same bundle already scanned on this pallet → Warning displayed, continue scanning</li>
+                <li><strong>System Block:</strong> Sample bundles remain in list → Cannot proceed to next pallet until all accounted for</li>
+                <li><strong>MTF Not Found:</strong> Refresh pressed but no MTF request exists → Prompt operator to rescan or file discrepancy</li>
+                <li><strong>Missing Bundles:</strong> Bundles not found after rescan → Press Discrepancy button, scan badge, enter reason</li>
+                <li><strong>Incomplete Cycle:</strong> Not all customers' pallets counted → Generate next cycle preview, loop back to Phase 1</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; padding: 30px; background: white; border-radius: 10px;">
+            <h2 style="color: #667eea; margin-bottom: 15px;">🎉 Complete 5-Phase Reject Cycle Count System</h2>
+            <p style="color: #666; font-size: 1.1em; line-height: 1.6;">
+                This comprehensive screen flow covers the complete reject cycle count system for RMC operations.<br>
+                <strong>Workflow:</strong> System scheduling (2-3 customers/month) → 5% aging pallet sampling → Badge auth + Bundle scanning → MTF handling + Discrepancy management → Completion tracking with next cycle preview<br>
+                Full audit trail with email notifications, system blocking, refresh mechanism, completion rates, and coverage tracking.
+            </p>
+            <div style="margin-top: 20px; padding: 20px; background: #f5f5f5; border-radius: 8px; display: inline-block;">
+                <p style="color: #1976d2; font-weight: bold; font-size: 1.2em;">Total CK3 Screens: 18</p>
+                <p style="color: #666; margin-top: 5px;">Covering 5 workflow phases | Phase 1: Backend System + Phases 2-5: CK3 Device (in-place updates)</p>
+            </div>
+
+            <div style="margin-top: 30px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <div style="background: #e3f2fd; padding: 15px 25px; border-radius: 8px; min-width: 200px;">
+                    <p style="color: #1976d2; font-weight: bold; font-size: 1.4em; margin-bottom: 5px;">5% Sampling</p>
+                    <p style="color: #666; font-size: 0.9em;">Aging Pallets Priority</p>
+                </div>
+                <div style="background: #e8f5e9; padding: 15px 25px; border-radius: 8px; min-width: 200px;">
+                    <p style="color: #4caf50; font-weight: bold; font-size: 1.4em; margin-bottom: 5px;">MTF Ready</p>
+                    <p style="color: #666; font-size: 0.9em;">Refresh & Replace</p>
+                </div>
+                <div style="background: #fff3cd; padding: 15px 25px; border-radius: 8px; min-width: 200px;">
+                    <p style="color: #ff9800; font-weight: bold; font-size: 1.4em; margin-bottom: 5px;">5 Phases</p>
+                    <p style="color: #666; font-size: 0.9em;">Complete System</p>
+                </div>
+                <div style="background: #fce4ec; padding: 15px 25px; border-radius: 8px; min-width: 200px;">
+                    <p style="color: #e91e63; font-weight: bold; font-size: 1.4em; margin-bottom: 5px;">Coverage Track</p>
+                    <p style="color: #666; font-size: 0.9em;">All Customers</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 30px; border-radius: 10px; margin-top: 30px; margin-bottom: 50px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">📱 Navigation Map</h3>
+            <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 0.9em; line-height: 1.8; color: #333;">
+                <strong style="color: #1976d2;">START</strong><br>
+                └─→ <strong>Phase 1:</strong> System Initialization <span style="color: #856404;">(BACKEND SYSTEM - NOT CK3)</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;├─→ System: Schedule 2-3 customers/month → Select 5% aging pallets → Sample bundles<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;├─→ Email: Send alert with count details → Weekly reminders until complete<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;├─→ Database: Record cycle count data → Set status to Pending<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;└─→ <span style="color: #4caf50;">Ready for CK3 operator to begin Phase 2</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: #2e7d32;">--- CK3 HANDHELD DEVICE WORKFLOW BEGINS ---</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 2:</strong> Primary Count Execution (Screens 1-6)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Badge scan → Count ID entry → Display bundle list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Navigate to location → Scan pallet ID<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ <span style="color: #dc3545;">Wrong Pallet</span> → Error (Screen 5) → Retry<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <span style="color: #4caf50;">Valid Pallet</span> (Screen 6)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 3:</strong> Bundle Scanning (Screens 7-9)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Scan bundles from sample list (Screen 7)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ <span style="color: #dc3545;">Invalid</span> → Rejected<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ <span style="color: #ff9800;">Duplicate</span> → Warning (Screen 8)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <span style="color: #4caf50;">Valid</span> → Marked as checked (Screen 9)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 4:</strong> Completion Verification (Screens 10-15)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ <span style="color: #4caf50;">All Bundles Checked</span> → Pallet Complete (Screen 10)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <span style="color: #dc3545;">Bundles Remain</span> → <span style="color: #ff0000;">SYSTEM BLOCK</span> (Screen 11)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ <span style="color: #2196f3;">Refresh Button</span> → Check MTF (Screen 12)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─→ <span style="color: #9c27b0;">MTF Found</span> → Replace bundle (Screen 13) → Update list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─→ <span style="color: #ff9800;">No MTF</span> → Prompt rescan (Screen 14)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <span style="color: #ff9800;">Discrepancy Button</span> → Badge scan (Screen 15a) → Enter reason (15b) → Logged<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Loop back to Phase 2 (more pallets) OR Phase 5<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 5:</strong> Completion & Coverage (Screens 16-18)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Generate report → Email notification (Screen 16)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Display completion rates (current + total) (Screen 17)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Next cycle preview (Screen 18)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ <span style="color: #4caf50;">100% Coverage</span> → <strong style="color: #4caf50;">END</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <span style="color: #ff9800;">More Customers</span> → Loop to Phase 1
+            </div>
+        </div>
+
+        <!-- PHASE 1: SYSTEM INITIALIZATION (BACKEND - NOT ON CK3) -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 1: System Initialization & Scheduling (Backend System)</h2>
+                <p style="color: #856404;">⚙️ This phase runs on the backend system, not on the CK3 handheld device</p>
+            </div>
+
+            <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px;">
+                <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 20px;">
+                    <h3 style="color: #856404; margin-bottom: 15px;">🖥️ Backend System Processes</h3>
+                    <p style="color: #666; line-height: 1.8;">
+                        The following processes are automated and occur on the backend system before the operator uses the CK3 device:
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Process 1: Scheduling -->
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #2196f3;">
+                        <h4 style="color: #1976d2; margin-bottom: 10px;">📅 Automated Scheduling</h4>
+                        <ul style="color: #666; line-height: 1.8; font-size: 0.95em;">
+                            <li>Generate 2-3 customers per month</li>
+                            <li>Group pallets by customer</li>
+                            <li>Sort by age (older pallet numbers first)</li>
+                            <li>Select 5% sample of aging pallets</li>
+                            <li>Create cycle count ID and list</li>
+                        </ul>
+                    </div>
+
+                    <!-- Process 2: Bundle Sampling -->
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #4caf50;">
+                        <h4 style="color: #2e7d32; margin-bottom: 10px;">📦 Bundle Sampling</h4>
+                        <ul style="color: #666; line-height: 1.8; font-size: 0.95em;">
+                            <li>Select sample bundles from sampled pallets</li>
+                            <li>Record Pallet-Lot-Bundle-Location</li>
+                            <li>Store customer info & reject types</li>
+                            <li>Generate master sample list</li>
+                        </ul>
+                    </div>
+
+                    <!-- Process 3: Database Recording -->
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #9c27b0;">
+                        <h4 style="color: #7b1fa2; margin-bottom: 10px;">💾 Database Recording</h4>
+                        <ul style="color: #666; line-height: 1.8; font-size: 0.95em;">
+                            <li>Record full cycle count start date</li>
+                            <li>Link to existing RMC data</li>
+                            <li>Store complete cycle count data</li>
+                            <li>Set status to "Pending"</li>
+                        </ul>
+                    </div>
+
+                    <!-- Process 4: Email Notifications -->
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #ff9800;">
+                        <h4 style="color: #e65100; margin-bottom: 10px;">📧 Email Notifications</h4>
+                        <ul style="color: #666; line-height: 1.8; font-size: 0.95em;">
+                            <li>Send initial alert to RMC team</li>
+                            <li>Include count ID, customer, due date</li>
+                            <li>List pallet count and bundle count</li>
+                            <li>Send weekly reminders until completed</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-top: 30px; text-align: center;">
+                    <p style="color: #1976d2; font-weight: bold; font-size: 1.1em; margin-bottom: 10px;">
+                        ⏳ Status: Pending (Awaiting Manual Trigger)
+                    </p>
+                    <p style="color: #666; font-size: 0.95em;">
+                        Once Phase 1 is complete, the operator can begin Phase 2 on the CK3 handheld device
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 2: LOGIN & START -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 2: Primary Count Execution</h2>
+                <p>Operator authentication and cycle count selection</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 1 -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Scan Badge</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">RMC Cycle Count</div>
+                            <p style="text-align: center; margin: 30px 0;">Please scan your badge number to begin</p>
+                            <input type="text" class="input-field" placeholder="Scan Badge No..." value="">
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 2 -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Scan Cycle Count ID</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Operator:</span>
+                                <span class="info-value">John Doe (Badge: 12345)</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Enter Cycle Count ID</div>
+                            <input type="text" class="input-field" placeholder="Scan or Enter Count ID..." value="">
+                            <p style="color: #666; font-size: 0.9em; margin-top: 10px;">Check email for Count ID</p>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 3 -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Pallet List</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Count ID:</span>
+                                <span class="info-value">CC2025-001</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Customer:</span>
+                                <span class="info-value">ABC Corp</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Sample Bundles:</span>
+                                <span class="info-value">24 bundles</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Pallets:</span>
+                                <span class="info-value">8 pallets</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Pallets to Validate </div>
+                            <div class="list-item">
+                                <strong>📦 PALLET-001 | E05-03</strong><br>
+                                <small>BDL-A123, BDL-A124, BDL-A125 (3 bundles)</small>
+                            </div>
+                            <div class="list-item">
+                                <strong>📦 PALLET-002 | E05-04</strong><br>
+                                <small>BDL-B200, BDL-B201 (2 bundles)</small>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Start Count</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 2 CONTINUED: PALLET SCANNING -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 2 (Continued): Pallet Scanning & Validation</h2>
+                <p>Navigate to location and scan pallet</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 4 -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Scan Pallet ID</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Progress:</span>
+                                <span class="info-value">Pallet 1 of 15</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Navigate to Location</div>
+                            <p style="text-align: center; font-size: 2em; color: #1976d2; margin: 20px 0;">📍 E05-03</p>
+                            <p style="text-align: center; color: #666;">Scan pallet ID at this location</p>
+                            <input type="text" class="input-field" placeholder="Scan Pallet ID..." value="">
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 5 - Error: Pallet Not in Count List -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Wrong Pallet</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-error">
+                            ⚠️ ERROR<br>Invalid Pallet for This Count
+                        </div>
+                        <div class="content-box">
+                            <p style="color: #721c24; font-weight: bold;">Scanned: PALLET-999</p>
+                            <p style="color: #666; margin-top: 10px;">This pallet is NOT in the current count list (CC2025-001).</p>
+                            <p style="color: #666; margin-top: 10px;">Please scan a pallet from the list provided.</p>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Retry Scan</button>
+                            <button class="btn btn-secondary">View List</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 6 - Success: Pallet Validated -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Pallet Validated</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-success">
+                            ✅ PALLET FOUND<br>Ready to Scan Bundles
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Pallet: PALLET-001</div>
+                            <div class="info-row">
+                                <span class="info-label">Location:</span>
+                                <span class="info-value">E05-03</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Sample Bundles:</span>
+                                <span class="info-value">3 bundles</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Reject Type:</span>
+                                <span class="info-value">Visual Defect</span>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Scan Bundles</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PHASE 3: BUNDLE SCANNING -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 3: Bundle Scanning</h2>
+                <p>Scan bundles from sample list - Updates in-place with notification bar</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 7 - Scan Bundle -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Scan Bundle</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Pallet:</span>
+                                <span class="info-value">PALLET-001</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Sample Bundles:</span>
+                                <span class="info-value">3</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Scanned:</span>
+                                <span class="info-value">0</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Sampled Bundles List</div>
+                            <div class="lot-item">
+                                <span>📦 BDL-A123</span>
+                            </div>
+                            <div class="lot-item">
+                                <span>📦 BDL-A124</span>
+                            </div>
+                            <div class="lot-item">
+                                <span>📦 BDL-A125</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <input type="text" class="input-field" placeholder="Scan Bundle Number..." value="">
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 8 - Duplicate Bundle Warning -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Duplicate Scan</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-error">
+                            ⚠️ DUPLICATE DETECTED<br>Bundle Already Scanned
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Bundle: BDL-A123</div>
+                            <div class="info-row">
+                                <span class="info-label">Pallet:</span>
+                                <span class="info-value">PALLET-001</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Status:</span>
+                                <span class="info-value" style="color: #4caf50;">✓ Already Scanned</span>
+                            </div>
+                            <p style="color: #721c24; margin-top: 15px; font-weight: bold;">This bundle has already been scanned for this pallet.</p>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Dismiss</button>
+                        </div>
+                        <div style="margin-top: 10px; padding: 10px; background: #e3f2fd; border-radius: 5px; text-align: center;">
+                            <small style="color: #1976d2;">Returns to bundle list (Screen 7)</small>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 9 - Bundle List Updated (After Successful Scan) -->
+                <div class="ck3-device" style="position: relative;">
+                    <div style="position: absolute; top: -30px; left: 0; right: 0; text-align: center; background: #e3f2fd; padding: 8px; border-radius: 5px; font-size: 0.85em; color: #1976d2; font-weight: bold;">
+                        Screen 7 (Updated State) - Stays on same screen
+                    </div>
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Scan Bundle</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <!-- Success Notification Bar -->
+                        <div style="background: #d4edda; padding: 10px; text-align: center; border-bottom: 2px solid #28a745; margin-bottom: 10px;">
+                            <span style="color: #155724; font-weight: bold;">✅ BDL-A123 marked as scanned</span>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Pallet:</span>
+                                <span class="info-value">PALLET-001</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Sample Bundles:</span>
+                                <span class="info-value">3</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Scanned:</span>
+                                <span class="info-value" style="color: #4caf50;">1 ✓</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Sampled Bundles List</div>
+                            <div class="lot-item" style="background: #d4edda; text-decoration: line-through; opacity: 0.7;">
+                                <span>📦 BDL-A123 ✓</span>
+                            </div>
+                            <div class="lot-item">
+                                <span>📦 BDL-A124</span>
+                            </div>
+                            <div class="lot-item">
+                                <span>📦 BDL-A125</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <input type="text" class="input-field" placeholder="Scan Next Bundle..." value="">
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 10 - Pallet Complete (All Bundles Scanned) -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Pallet Complete</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-success">
+                            ✅ ALL BUNDLES CHECKED<br>Pallet Validated
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Pallet: PALLET-001</div>
+                            <div class="info-row">
+                                <span class="info-label">Sample Bundles:</span>
+                                <span class="info-value">3</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Scanned:</span>
+                                <span class="info-value" style="color: #4caf50;">3 ✓</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Status:</span>
+                                <span class="info-value" style="color: #4caf50;">Completed</span>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Next Pallet</button>
+                            <button class="btn btn-secondary">Review</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PHASE 4: COMPLETION VERIFICATION -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 4: Pallet Completion Verification</h2>
+                <p>System blocking, MTF handling, and discrepancy management</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 11 - System Block (Bundles Remain) -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">System Block</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-error" style="background: #ff5252; color: white;">
+                            🚫 CANNOT PROCEED<br>Bundles Remaining
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Pallet: PALLET-001</div>
+                            <div class="info-row">
+                                <span class="info-label">Expected:</span>
+                                <span class="info-value">3 bundles</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Scanned:</span>
+                                <span class="info-value" style="color: #ff9800;">2 bundles</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Remaining:</span>
+                                <span class="info-value" style="color: #dc3545;">1 bundle</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Not Checked:</div>
+                            <div class="lot-item" style="background: #ffebee;">❌ BDL-A125</div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary">🔄 Refresh</button>
+                            <button class="btn btn-warning">⚠️ Discrepancy</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 12 - Refresh Button - Check MTF -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Checking MTF Requests</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-warning">
+                            🔄 REFRESHING<br>Checking MTF Requests
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Scanning for MTF...</div>
+                            <p style="text-align: center; margin: 20px 0; color: #666;">System is checking if any bundles in the list have active MTF requests</p>
+                            <div class="info-row">
+                                <span class="info-label">Bundle:</span>
+                                <span class="info-value">BDL-A125</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Status:</span>
+                                <span class="info-value">Checking...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 13 - MTF Found - Replace Bundle -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">MTF Detected</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-success" style="background: #9c27b0; color: white;">
+                            🔄 MTF REQUEST FOUND<br>Replacing Bundle
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Bundle Replacement</div>
+                            <div class="info-row">
+                                <span class="info-label">Original Bundle:</span>
+                                <span class="info-value" style="text-decoration: line-through;">BDL-A125</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">New Bundle:</span>
+                                <span class="info-value" style="color: #9c27b0; font-weight: bold;">BDL-A129</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Same Pallet:</span>
+                                <span class="info-value">PALLET-001</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Updated Sample List</div>
+                            <div class="lot-item" style="background: #e1bee7;">
+                                <span>📦 BDL-A129 (Replacement)</span>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Continue Scanning</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 14 - No MTF - Prompt Rescan -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">No MTF Request</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-warning">
+                            ⚠️ NO MTF FOUND<br>Please Rescan or File Discrepancy
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Bundle: BDL-A125</div>
+                            <p style="color: #856404; margin: 15px 0; font-weight: bold;">No MTF request detected for this bundle</p>
+                            <p style="color: #666; font-size: 0.9em;">Options:</p>
+                            <ul style="margin: 10px 0 10px 20px; color: #666; font-size: 0.9em;">
+                                <li>Rescan the pallet to find bundle</li>
+                                <li>File discrepancy if bundle is missing</li>
+                            </ul>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Rescan</button>
+                            <button class="btn btn-warning">Discrepancy</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 15a - Discrepancy Button - Badge Scan -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Badge Authorization</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-warning">
+                            🔐 AUTHORIZATION REQUIRED<br>Scan Badge to File Discrepancy
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Discrepancy: BDL-A125</div>
+                            <div class="info-row">
+                                <span class="info-label">Pallet:</span>
+                                <span class="info-value">PALLET-001</span>
+                            </div>
+                            <p style="color: #856404; margin-top: 15px; font-size: 0.9em;">Badge authorization is required to mark this bundle as a discrepancy</p>
+                        </div>
+                        <div class="content-box">
+                            <p style="text-align: center; margin: 10px 0;">Scan your badge number</p>
+                            <input type="text" class="input-field" placeholder="Scan Badge No..." value="">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 15b - Enter Reason for Discrepancy -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Select Reason</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Why is bundle missing?</div>
+                            <div class="info-row">
+                                <span class="info-label">Bundle:</span>
+                                <span class="info-value">BDL-A125</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Authorized by:</span>
+                                <span class="info-value">John Doe (12345)</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="reason-option">📦 Moved Location</div>
+                            <div class="reason-option">🗑️ Scrapped</div>
+                            <div class="reason-option">❓ Missing Bundles</div>
+                            <div class="reason-option">📝 Other</div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Add Remark (Required)</div>
+                            <textarea class="input-field" style="min-height: 60px; resize: vertical;" placeholder="Additional details..."></textarea>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-secondary">Back</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PHASE 5: COMPLETION & COVERAGE -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 5: Completion & Coverage Check</h2>
+                <p>Final reports, completion rates, and next cycle preview</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 16 - Discrepancy Report (if any) -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Discrepancy Report</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-warning">
+                            ⚠️ DISCREPANCIES FOUND<br>Report Generated
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Count ID: CC2025-001</div>
+                            <div class="list-item" style="background: #ffebee;">
+                                <strong>PALLET-001 | BDL-A125</strong><br>
+                                <small>Reason: Missing Bundles<br>By: John Doe (12345)<br>Time: 2025-10-28 14:23</small>
+                            </div>
+                            <div class="list-item" style="background: #e1bee7;">
+                                <strong>PALLET-005 | BDL-B340</strong><br>
+                                <small>MTF Replacement: BDL-B341<br>Time: 2025-10-28 15:10</small>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <p style="color: #666; font-size: 0.9em;"><strong>Email Sent To:</strong> RMC Team & Supervisors</p>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 17 - Completion Rates -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Completion Summary</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="alert-success">
+                            ✅ CYCLE COMPLETE<br>Data Saved
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Current Cycle (CC2025-001)</div>
+                            <div class="info-row">
+                                <span class="info-label">Completion Rate:</span>
+                                <span class="info-value" style="color: #4caf50; font-size: 1.3em;">100%</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Total Pallets:</span>
+                                <span class="info-value">8</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Bundles Checked:</span>
+                                <span class="info-value">22 / 24</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">MTF Replacements:</span>
+                                <span class="info-value" style="color: #9c27b0;">1</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Discrepancies:</span>
+                                <span class="info-value" style="color: #ff9800;">2</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Total Cycles Performance</div>
+                            <div class="info-row">
+                                <span class="info-label">Overall Rate:</span>
+                                <span class="info-value" style="color: #4caf50; font-size: 1.3em;">87%</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Completed Cycles:</span>
+                                <span class="info-value">5 / 12</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Counter:</span>
+                                <span class="info-value">John Doe (12345)</span>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Next</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 18 - Next Cycle Preview -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Next Cycle Preview</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box" style="background: #e3f2fd;">
+                            <div class="content-title" style="color: #1976d2;">📅 Upcoming Cycle</div>
+                            <div class="info-row">
+                                <span class="info-label">Next Count ID:</span>
+                                <span class="info-value">CC2025-002</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Scheduled Date:</span>
+                                <span class="info-value">2025-11-01</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Scheduled Customers</div>
+                            <div class="list-item">
+                                <strong>XYZ Industries</strong><br>
+                                <small>Pallets: 6 | Bundles: 18</small>
+                            </div>
+                            <div class="list-item">
+                                <strong>DEF Manufacturing</strong><br>
+                                <small>Pallets: 4 | Bundles: 12</small>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Coverage Status:</span>
+                                <span class="info-value" style="color: #ff9800;">In Progress (42%)</span>
+                            </div>
+                            <p style="color: #666; font-size: 0.85em; margin-top: 10px;">More customers to count. System will continue until 100% pallet coverage achieved.</p>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">Exit</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>📊 Complete Screen Flow Summary</h2>
+                <p>Overview of all CK3 screens in the pallet-based bundle validation process</p>
+            </div>
+
+            <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <h3 style="color: #667eea; margin-bottom: 20px;">Screen Flow Breakdown</h3>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #1976d2; margin-bottom: 10px;">Phase 1: System Initialization & Scheduling (Backend Only - No CK3 Screens)</h4>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li style="color: #856404;">⚙️ Automated scheduling (2-3 customers/month, 5% aging pallets)</li>
+                        <li style="color: #856404;">⚙️ Email notification sent to RMC team</li>
+                        <li style="color: #856404;">⚙️ Database update with cycle count list</li>
+                        <li style="color: #856404;">⚙️ All processes run on backend system, not CK3 device</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #1976d2; margin-bottom: 10px;">Phase 2: Primary Count Execution (6 screens)</h4>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li>✓ Screen 1: Scan badge number</li>
+                        <li>✓ Screen 2: Enter cycle count ID</li>
+                        <li>✓ Screen 3: View bundle list (grouped by pallet)</li>
+                        <li>✓ Screen 4: Navigate and scan pallet ID</li>
+                        <li>✓ Screen 5: Error - Wrong pallet for this count</li>
+                        <li>✓ Screen 6: Success - Pallet validated, ready for bundle scanning</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #1976d2; margin-bottom: 10px;">Phase 3: Bundle Scanning (3 screens)</h4>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li>✓ Screen 7: Scan bundles from sample list (updates in-place with notification bar when bundle scanned)</li>
+                        <li>✓ Screen 8: Duplicate bundle warning (dismiss returns to Screen 7)</li>
+                        <li>✓ Screen 9: Example of Screen 7 after successful scan (notification bar + updated list)</li>
+                        <li>✓ Screen 10: Pallet complete - All bundles checked</li>
+                    </ul>
+                    <p style="color: #666; font-size: 0.9em; margin-top: 10px; padding-left: 20px;">
+                        <em>Note: Screen 9 is not a separate screen - it shows how Screen 7 updates after a bundle is scanned. The workflow stays on Screen 7 with quiet in-place updates.</em>
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #1976d2; margin-bottom: 10px;">Phase 4: Pallet Completion Verification (6 screens)</h4>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li>✓ Screen 11: System block - Bundles remaining in list</li>
+                        <li>✓ Screen 12: Refresh button - Checking MTF requests</li>
+                        <li>✓ Screen 13: MTF found - Bundle replacement</li>
+                        <li>✓ Screen 14: No MTF - Prompt rescan or discrepancy</li>
+                        <li>✓ Screen 15a: Badge authorization for discrepancy</li>
+                        <li>✓ Screen 15b: Select reason and enter comments</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #1976d2; margin-bottom: 10px;">Phase 5: Completion & Coverage Check (3 screens)</h4>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li>✓ Screen 16: Discrepancy report (if any) with email notification</li>
+                        <li>✓ Screen 17: Completion rates (current cycle + total cycles)</li>
+                        <li>✓ Screen 18: Next cycle preview and coverage status</li>
+                    </ul>
+                </div>
+
+                <hr style="margin: 30px 0; border: none; border-top: 2px solid #eee;">
+
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                    <h4 style="color: #1976d2; margin-bottom: 15px;">Total: 18 CK3 Screens (Phases 2-5) + Phase 1 Backend</h4>
+                    <p style="color: #666; line-height: 1.8;">
+                        <strong>Complete System Workflow:</strong> Backend scheduling → Sample-based presence validation on CK3 → MTF handling → Discrepancy management → Completion tracking<br>
+                        <strong>Key Features:</strong> 5% aging pallet sampling, system blocking, refresh mechanism, badge authorization, MTF replacement, completion rates, next cycle preview<br>
+                        <strong>CK3 Workflow:</strong> Phase 1 runs on backend system; Phases 2-5 run on CK3 handheld device with in-place updates and notification bars<br>
+                        <strong>Looping Structure:</strong> System continues until 100% pallet coverage across all customers achieved<br>
+                        <strong>Final Status:</strong> Cycle Complete with detailed reports and coverage tracking
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
