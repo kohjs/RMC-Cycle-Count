@@ -163,26 +163,30 @@ flowchart TD
     DC1 -- Discrepancies Found --> DC2["System: Generate Discrepancy Report"]
     DC2 --> DC3["Display Discrepancy Report:<br>━━━━━━━━━━━━━━━━━━━━<br>• Pallet - Lot - Bundle Details<br>• MTF Bundles and Replacements<br>• Reasons for Discrepancies<br>• Timestamps"]
     DC3 --> DC4["System: Send Email Notification<br>To: RMC Team &amp; Supervisors<br>Subject: Cycle Count Complete - Discrepancies Found<br>Include: Summary of Issues"] & n1["View Discrepancy List"]
-    DC4 --> DC5@{ label: "CK3: Display Final Summary<br>━━━━━━━━━━━━━━━━━━━━<br>Completion Rate (Current Cycle): [%]<br>Completion Rate (Total Cycles): [%]<br>✓ Total Pallets Counted: [count]<br>✓ Total Bundles Scanned: [count]<br>⚠ Discrepancies Found: [count]<br>⚠ MTF Bundles: [count]<br>⚠ Scrap list Bundles: [count]<br>Report Generated &amp; Emailed" }
+    DC4 --> DC5["CK3: Display Final Summary<br>━━━━━━━━━━━━━━━━━━━━<br>Completion Rate (Current Cycle): [%]<br>Completion Rate (Total Cycles): [%]<br>✓ Total Pallets Counted: [count]<br>✓ Total Bundles Scanned: [count]<br>⚠ Discrepancies Found: [count]<br>⚠ MTF Bundles: [count]<br>⚠ Scrap list Bundles: [count]<br>Report Generated &amp; Emailed"]
     DC1 -- No Discrepancies --> ND1["System: Generate Summary Report<br>All Items Accounted For"]
     NEXT2["CK3: Display Next Cycle Information<br>━━━━━━━━━━━━━━━━━━━━<br><br>Date of Next Cycle for current customer: [1 year/6 months from now]<br><br>"] --> Restart["Return to System Initialization<br>(Phase 1)"]
     ND1 --> DC5
     DC5 --> NEXT2
     n1 --> n2["CK3: Scan bundle with discrepancy to remove discepancy and mark as completed"]
     Restart --> n3["End"]
+    n2 -- Update --> DC5
 
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style DC1 color:#000
     style DC2 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style DC3 fill:#FFA500,stroke:#000,stroke-width:2px,color:#000
     style DC4 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
+    style n1 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
     style DC5 fill:#BBDEFB,stroke:#000,stroke-width:2px,color:#000
     style ND1 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style NEXT2 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
-    style n1 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
+    style Restart fill:#87CEEB,stroke:#000,stroke-width:2px,color:#000
     style n2 color:#000
     style n3 fill:#90EE90,stroke:#000,stroke-width:3px,color:#000
-    style Restart fill:#87CEEB,stroke:#000,stroke-width:2px,color:#000
+
+
+
 ```
 
 ---
