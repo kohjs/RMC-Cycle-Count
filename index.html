@@ -382,6 +382,15 @@
         .popup-warning .popup-text {
             color: #856404;
         }
+
+        .popup-error {
+            background: #f8d7da;
+            border: 3px solid #dc3545;
+        }
+
+        .popup-error .popup-text {
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
@@ -611,9 +620,8 @@
                                 <small>BDL-B200, BDL-B201 (2 bundles)</small>
                             </div>
                         </div>
-                        <div class="button-group">
-                            <button class="btn btn-primary">Start Count</button>
-                        </div>
+                        <input type="text" class="input-field" placeholder="Scan Pallet ID..." value="">
+                        
                     </div>
                     <div class="device-buttons">
                         <div class="device-btn">⌂</div>
@@ -633,7 +641,9 @@
             </div>
 
             <div class="screens-row">
-                <!-- Screen 4 -->
+                
+
+                <!-- Screen 5 - Error: Pallet Not in Count List -->
                 <div class="ck3-device">
                     <div class="device-header">
                         <div class="barcode">||||| CK3-SP-07 |||||</div>
@@ -658,91 +668,32 @@
                             <p style="text-align: center; color: #666;">Scan pallet ID at this location</p>
                             <input type="text" class="input-field" placeholder="Scan Pallet ID..." value="">
                         </div>
-                    </div>
-                    <div class="device-buttons">
-                        <div class="device-btn">⌂</div>
-                        <div class="device-btn">✕</div>
-                        <div class="device-btn">≡</div>
-                        <div class="device-btn">✓</div>
-                    </div>
-                </div>
 
-                <!-- Screen 5 - Error: Pallet Not in Count List -->
-                <div class="ck3-device">
-                    <div class="device-header">
-                        <div class="barcode">||||| CK3-SP-07 |||||</div>
-                    </div>
-                    <div class="screen">
-                        <div class="screen-header">
-                            <span class="screen-title">Wrong Pallet</span>
-                            <div class="screen-icons">
-                                <div class="icon"></div>
-                                <div class="icon"></div>
+                        <!-- Popup Overlay for Invalid Pallet Error -->
+                        <div class="popup-overlay">
+                            <div class="popup-box popup-error">
+                                <div style="font-size: 3em; margin-bottom: 10px;">❌</div>
+                                <div class="popup-text">Invalid Pallet</div>
+                                <p style="color: #721c24; font-size: 0.9em; margin-top: 10px; font-weight: bold;">Not in current count list</p>
+                                <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+                                    <div style="color: #666; font-size: 0.85em; margin-bottom: 5px;"><strong>Scanned:</strong> PALLET-999</div>
+                                    <div style="color: #721c24; font-size: 0.85em; margin-bottom: 5px;"><strong>Count ID:</strong> CC2025-001</div>
+                                    <div style="color: #666; font-size: 0.8em; margin-top: 8px;">Please scan a pallet from the list provided</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="alert-error">
-                            ⚠️ ERROR<br>Invalid Pallet for This Count
-                        </div>
-                        <div class="content-box">
-                            <p style="color: #721c24; font-weight: bold;">Scanned: PALLET-999</p>
-                            <p style="color: #666; margin-top: 10px;">This pallet is NOT in the current count list (CC2025-001).</p>
-                            <p style="color: #666; margin-top: 10px;">Please scan a pallet from the list provided.</p>
-                        </div>
-                        <div class="button-group">
-                            <button class="btn btn-primary">Retry Scan</button>
-                            <button class="btn btn-secondary">View List</button>
-                        </div>
                     </div>
-                    <div class="device-buttons">
-                        <div class="device-btn">⌂</div>
-                        <div class="device-btn">✕</div>
-                        <div class="device-btn">≡</div>
-                        <div class="device-btn">✓</div>
-                    </div>
-                </div>
 
-                <!-- Screen 6 - Success: Pallet Validated -->
-                <div class="ck3-device">
-                    <div class="device-header">
-                        <div class="barcode">||||| CK3-SP-07 |||||</div>
-                    </div>
-                    <div class="screen">
-                        <div class="screen-header">
-                            <span class="screen-title">Pallet Validated</span>
-                            <div class="screen-icons">
-                                <div class="icon"></div>
-                                <div class="icon"></div>
-                            </div>
-                        </div>
-                        <div class="alert-success">
-                            ✅ PALLET FOUND<br>Ready to Scan Bundles
-                        </div>
-                        <div class="content-box">
-                            <div class="content-title">Pallet: PALLET-001</div>
-                            <div class="info-row">
-                                <span class="info-label">Location:</span>
-                                <span class="info-value">E05-03</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Sample Bundles:</span>
-                                <span class="info-value">3 bundles</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Reject Type:</span>
-                                <span class="info-value">Visual Defect</span>
-                            </div>
-                        </div>
-                        <div class="button-group">
-                            <button class="btn btn-primary">Scan Bundles</button>
-                        </div>
-                    </div>
                     <div class="device-buttons">
                         <div class="device-btn">⌂</div>
                         <div class="device-btn">✕</div>
                         <div class="device-btn">≡</div>
                         <div class="device-btn">✓</div>
                     </div>
+
+
                 </div>
+               
 
             </div>
         </div>
@@ -844,12 +795,18 @@
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Scanned:</span>
-                                <span class="info-value">0</span>
+                                <span class="info-value">2</span>
                             </div>
                         </div>
                         <div class="content-box">
                             <div class="content-title">Sampled Bundles List</div>
                         
+                            <div class="lot-item">
+                                <span style="text-decoration: line-through;">📦 BDL-A123 Removed after</span>
+                            </div>
+                            <div class="lot-item">
+                                <span style="text-decoration: line-through;">📦 BDL-A124</span>
+                            </div>
                             <div class="lot-item">
                                 <span>📦 BDL-A125</span>
                             </div>

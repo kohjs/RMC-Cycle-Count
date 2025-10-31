@@ -13,9 +13,13 @@ This system is broken down into 5 main phases for better readability:
 ## 1. System Initialization & Scheduling
 
 ```mermaid
+---
+config:
+  layout: fixed
+---
 flowchart TD
     Start(["Start: Reject Cycle Count System"]) --> n1["Record Full Cycle Count Start Date<br>Record Existing RMC Data"]
-    n1 --> A["System: Schedule Cycle Count per Month<br>Generate Customer/s (determined by size and priority) per Month<br>Based on Total Customer Count"]
+    n1 --> A["System: Schedule Cycle Count per Month<br>Generate Customer/s (determined internal team) per Month<br>Based on Total Customer Count"]
     A --> B["System: Generate Cycle Count List<br>Per Selected Customer"]
     B --> B1["Group Pallets by Customer"]
     B1b["Select 5% Sample of Aging Pallets"] --> B1c["Select Sample Bundles from Sampled Pallets"]
@@ -30,7 +34,6 @@ flowchart TD
     B1 --> B1a["Sort Pallets by Age<br>Priority: Older Pallet Numbers First"]
     B1a --> n2
     n3 --> B2
-
     n3@{ shape: rect}
     n2@{ shape: rect}
     style Start fill:#90EE90,stroke:#000,stroke-width:3px,color:#000
@@ -46,9 +49,10 @@ flowchart TD
     style D color:#000
     style E fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style Next fill:#87CEEB,stroke:#000,stroke-width:2px,color:#000
-    style B1a color:#000
-    style n2 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style n3 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
+    style n2 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
+    style B1a color:#000
+
 ```
 
 ---
