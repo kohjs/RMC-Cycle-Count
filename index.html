@@ -400,48 +400,278 @@
        
 
         <div style="text-align: center; padding: 20px; background: white; border-radius: 10px; margin-bottom: 20px;">
-            <h2 style="color: #667eea; margin-bottom: 10px;">Reject Cycle Count System - 5 Phases</h2>
-            <p style="color: #666;">System Initialization → Primary Count → Bundle Scanning → Pallet Verification → Completion Check</p>
+            <h2 style="color: #667eea; margin-bottom: 10px;">Reject Cycle Count System - 7 Phases</h2>
+            <p style="color: #666;">Main Page → Generate Count → Primary Count → Bundle Scanning → Pallet Verification → Discrepancy Rescan → Completion Check</p>
         </div>
 
         <div style="background: white; padding: 30px; border-radius: 10px; margin-top: 30px; margin-bottom: 50px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">📱 Navigation Map</h3>
             <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 0.9em; line-height: 1.8; color: #333;">
-                <strong style="color: #1976d2;">START</strong><br>
-                └─→ <strong>Phase 1:</strong> System Initialization <span style="color: #856404;">(BACKEND - NOT CK3)</span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;├─→ Schedule customers → Select 5% aging pallets → Sample bundles<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;├─→ Send email alert → Weekly reminders<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;└─→ <span style="color: #4caf50;">CK3 workflow begins</span><br>
+                <strong style="color: #1976d2;">START - CK3 DEVICE WORKFLOW</strong><br>
+                └─→ <strong>Phase 0:</strong> Main Page Navigation<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;├─→ Option 1: Generate Count (On-Demand)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;├─→ Option 2: Cycle Count<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;└─→ Option 3: Discrepancy Rescan<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: #2e7d32;">--- CK3 DEVICE WORKFLOW ---</strong><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 2:</strong> Primary Count (Screens 1-6)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Scan badge → Count ID → Display bundle list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: #2e7d32;">--- OPTION 1: GENERATE COUNT ---</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 1:</strong> Generate Count (On-Demand)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Scan badge → Select customers<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Validate 3-month rule<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─→ &lt;3 months → <span style="color: #ff0000;">ERROR POPUP</span> → Retry<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─→ ≥3 months → Generate count<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Email sent → Return to Phase 0<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: #2e7d32;">--- OPTION 2: CYCLE COUNT ---</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 2:</strong> Primary Count Execution<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Scan badge → Count ID → Display pallet list<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Scan pallet ID<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Wrong pallet → Error → Retry<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Invalid → <span style="color: #ff0000;">ERROR POPUP</span> → Retry<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Valid pallet<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 3:</strong> Bundle Scanning (Screen 7)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Scan bundles → Check if in list<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Not in list → Continue scanning<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ In list → Mark as checked → Remove from list<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 4:</strong> Verification (Screens 8-12)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ All bundles checked → Unblock → Mark pallet complete<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Bundles remain → <span style="color: #ff0000;">SYSTEM BLOCK</span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Refresh → Check MTF/Scrap<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─→ MTF found → Replace bundle → Rescan<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─→ No MTF → Rescan<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Discrepancy → Scan badge → Select reason<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ All pallets done? → <strong>Phase 5:</strong> Completion (Screens 13-15)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Generate report → Email notification<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Display completion summary<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Next cycle preview → Loop to Phase 1 or END
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 3:</strong> Bundle Scanning & Pause/Resume<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Scan bundles → Mark as checked<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Pause → Mark as discrepancy → Phase 0<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Crash recovery → Auto-save/restore<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 4:</strong> Pallet Verification<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ All bundles done → Complete<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Bundles remain → <span style="color: #ff0000;">SYSTEM BLOCK</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Refresh → Check MTF/Scrap<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─→ MTF found → <span style="color: #4caf50;">SUCCESS POPUP</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─→ No MTF → <span style="color: #ffc107;">WARNING POPUP</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Discrepancy → Badge + Reason<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ All pallets done → <strong>Phase 6:</strong> Completion<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: #2e7d32;">--- OPTION 3: DISCREPANCY RESCAN ---</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ <strong>Phase 5:</strong> Discrepancy Rescan<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Display pallets with discrepancies<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─→ Select pallet → Rescan bundles<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─→ Found → Remove discrepancy mark<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─→ Not found → Remains in report<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─→ Return to Phase 0 or Phase 6<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                └─→ <strong>Phase 6:</strong> Completion & Coverage Check → END
             </div>
         </div>
 
-        <!-- PHASE 1: SYSTEM INITIALIZATION (BACKEND - NOT ON CK3) -->
+        <!-- PHASE 0: MAIN PAGE NAVIGATION -->
         <div class="flow-section">
             <div class="section-title">
-                <h2>Phase 1: System Initialization & Scheduling (Backend System)</h2>
-                <p style="color: #856404;">⚙️ This phase runs on the backend system, not on the CK3 handheld device</p>
+                <h2>Phase 0: Main Page Navigation</h2>
+                <p>Central hub with 3 operational buttons</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 0 - Main Page -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">RMC Cycle Count</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Main Menu</div>
+                            <p style="text-align: center; margin: 20px 0; color: #666;">Select Operation</p>
+                        </div>
+                        <div class="button-group" style="flex-direction: column;">
+                            <button class="btn btn-primary">1. Generate Count</button>
+                            <button class="btn btn-secondary">2. Cycle Count</button>
+                            <button class="btn btn-warning">3. Discrepancy Rescan</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 1: GENERATE COUNT (ON-DEMAND) -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 1: Generate Count (On-Demand)</h2>
+                <p>Operator authentication, customer selection, and cycle count generation</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 1.1 - Scan Badge -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Generate Count</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Scan Badge</div>
+                            <p style="text-align: center; margin: 30px 0;">Scan your badge to begin generating cycle count</p>
+                            <input type="text" class="input-field" placeholder="Scan Badge No..." value="">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary">Back to Main</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 1.2 - Customer Selection -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Select Customers</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Operator:</span>
+                                <span class="info-value">John Doe (12345)</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Available Customers</div>
+                            <p style="color: #666; font-size: 0.85em; margin-bottom: 10px;">Select one or more customers (multiple selection allowed)</p>
+                            <div class="reason-option" style="background: #e8f5e9; border-color: #4caf50;">
+                                <input type="checkbox" checked> <strong>ABC Corp</strong><br>
+                                <small>Last Count: 2025-07-15 (3.5 months ago)</small>
+                            </div>
+                            <div class="reason-option" style="background: #e8f5e9; border-color: #4caf50;">
+                                <input type="checkbox" checked> <strong>XYZ Industries</strong><br>
+                                <small>Last Count: 2025-06-01 (5 months ago)</small>
+                            </div>
+                            <div class="reason-option" style="background: #ffebee; border-color: #f44336;">
+                                <input type="checkbox"> <strong>Tech Solutions</strong><br>
+                                <small style="color: #d32f2f;">Last Count: 2025-09-15 (1.5 months ago) ❌</small>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary">Back</button>
+                            <button class="btn btn-primary">Generate</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 1.3 - Error: Less than 3 months -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Select Customers</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Available Customers</div>
+                            <div class="reason-option" style="background: #e8f5e9; border-color: #4caf50;">
+                                <input type="checkbox" checked> <strong>ABC Corp</strong><br>
+                                <small>Last Count: 2025-07-15 (3.5 months ago)</small>
+                            </div>
+                            <div class="reason-option" style="background: #ffebee; border-color: #f44336;">
+                                <input type="checkbox" checked> <strong>Tech Solutions</strong><br>
+                                <small style="color: #d32f2f;">Last Count: 2025-09-15 (1.5 months ago) ❌</small>
+                            </div>
+                        </div>
+
+                        <!-- Error Popup -->
+                        <div class="popup-overlay">
+                            <div class="popup-box popup-error">
+                                <div style="font-size: 3em; margin-bottom: 10px;">❌</div>
+                                <div class="popup-text">Cannot Generate Cycle</div>
+                                <p style="color: #721c24; font-size: 0.9em; margin-top: 10px; font-weight: bold;">Last cycle was less than 3 months ago</p>
+                                <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px; text-align: left;">
+                                    <div style="color: #666; font-size: 0.85em; margin-bottom: 5px;"><strong>Customer:</strong> Tech Solutions</div>
+                                    <div style="color: #721c24; font-size: 0.85em; margin-bottom: 5px;"><strong>Last Cycle:</strong> 2025-09-15</div>
+                                    <div style="color: #666; font-size: 0.85em;"><strong>Next Available:</strong> 2025-12-15</div>
+                                </div>
+                                <button class="btn btn-secondary" style="margin-top: 15px; width: 100%;">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 1.4 - Success: Count Generated -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Generate Count</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+
+                        <!-- Success Popup -->
+                        <div class="popup-overlay">
+                            <div class="popup-box popup-success">
+                                <div style="font-size: 3em; margin-bottom: 10px;">✅</div>
+                                <div class="popup-text">Cycle Count Generated!</div>
+                                <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px; text-align: left;">
+                                    <div style="color: #666; font-size: 0.85em; margin-bottom: 5px;"><strong>Count ID:</strong> CC2025-003</div>
+                                    <div style="color: #666; font-size: 0.85em; margin-bottom: 5px;"><strong>Customers:</strong> ABC Corp, XYZ Industries</div>
+                                    <div style="color: #666; font-size: 0.85em; margin-bottom: 5px;"><strong>Pallets:</strong> 12</div>
+                                    <div style="color: #666; font-size: 0.85em;"><strong>Bundles:</strong> 36</div>
+                                    <div style="color: #28a745; font-size: 0.85em; margin-top: 10px; font-weight: bold;">Email sent to RMC Team</div>
+                                </div>
+                                <button class="btn btn-primary" style="margin-top: 15px; width: 100%;">Return to Main Page</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BACKEND SYSTEM INFO (NOT A PHASE) -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Backend System: Automated Processes</h2>
+                <p style="color: #856404;">⚙️ These processes run automatically on the backend system</p>
             </div>
 
             <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px;">
@@ -715,7 +945,6 @@
                         <div class="screen-header">
                             <span class="screen-title">Scan Bundle</span>
                             <div class="screen-icons">
-                                <div class="icon">🔄️</div>
                             </div>
                         </div>
                         <div class="content-box">
@@ -748,8 +977,8 @@
                             <input type="text" class="input-field" placeholder="Scan Bundle Number..." value="">
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-disabled">Back</button>
-                            <button class="btn btn-warning">⚠️Discrepancy</button>
+                            <button class="btn btn-secondary">Proceed</button>
+                            <button class="btn btn-disabled">⚠️ Discrepancy</button>
                         </div>
                     </div>
                     <div class="device-buttons">
@@ -780,9 +1009,7 @@
                     <div class="screen">
                         <div class="screen-header">
                             <span class="screen-title">System Block</span>
-                            <div class="screen-icons">
-                                <div class="icon">🔄️</div>
-                            </div>
+                            
                         </div>
                         <div class="content-box">
                             <div class="info-row">
@@ -815,10 +1042,10 @@
                             <input type="text" class="input-field" placeholder="Scan Bundle Number..." value="">
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-disabled">Back</button>
-                            <button class="btn btn-warning">⚠️ Discrepancy</button>
+                            <button class="btn btn-secondary">Proceed</button>
+                            <button class="btn btn-disabled">⚠️ Discrepancy</button>
                         </div>
-                        
+
                     </div>
                     <div class="device-buttons">
                         <div class="device-btn">⌂</div>
@@ -865,8 +1092,8 @@
                             <input type="text" class="input-field" placeholder="Scan Bundle Number..." value="">
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-disabled">Back</button>
-                            <button class="btn btn-warning">⚠️ Discrepancy</button>
+                            <button class="btn btn-secondary">Proceed</button>
+                            <button class="btn btn-disabled">⚠️ Discrepancy</button>
                         </div>
 
                         <!-- Popup Overlay for Checking -->
@@ -923,8 +1150,8 @@
                             <input type="text" class="input-field" placeholder="Scan Bundle Number..." value="">
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-disabled">Back</button>
-                            <button class="btn btn-warning">⚠️ Discrepancy</button>
+                            <button class="btn btn-secondary">Proceed</button>
+                            <button class="btn btn-disabled">⚠️ Discrepancy</button>
                         </div>
 
                         <!-- Popup Overlay for MTF/Scrap Found -->
@@ -985,7 +1212,7 @@
                             <input type="text" class="input-field" placeholder="Scan Bundle Number..." value="">
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-disabled">Back</button>
+                            <button class="btn btn-secondary">Proceed</button>
                             <button class="btn btn-warning">⚠️ Discrepancy</button>
                         </div>
 
@@ -1099,15 +1326,213 @@
             </div>
         </div>
 
-        <!-- PHASE 5: COMPLETION & COVERAGE -->
+        <!-- PHASE 5: DISCREPANCY RESCAN -->
         <div class="flow-section">
             <div class="section-title">
-                <h2>Phase 5: Completion & Coverage Check</h2>
+                <h2>Phase 5: Discrepancy Rescan</h2>
+                <p>Resume paused counts or address bundles marked as discrepancies</p>
+            </div>
+
+            <div class="screens-row">
+                <!-- Screen 5.1 - Scan Badge -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Discrepancy Rescan</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Scan Badge</div>
+                            <p style="text-align: center; margin: 30px 0;">Scan your badge to access discrepancy rescan</p>
+                            <input type="text" class="input-field" placeholder="Scan Badge No..." value="">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary">Back to Main</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 5.2 - Pallets with Discrepancies -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Discrepancy List</span>
+                            <div class="screen-icons">
+                                <div class="icon"></div>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Operator:</span>
+                                <span class="info-value">John Doe (12345)</span>
+                            </div>
+                        </div>
+                        <div class="alert-warning">
+                            ⚠️ PALLETS WITH DISCREPANCIES
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Select Pallet to Rescan</div>
+                            <div class="list-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <strong>📦 PALLET-001 | E05-03</strong><br>
+                                <small>Discrepancies: 1 bundle</small><br>
+                                <small style="color: #d32f2f;">BDL-A125 (Missing)</small>
+                            </div>
+                            <div class="list-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <strong>📦 PALLET-005 | E06-12</strong><br>
+                                <small>Discrepancies: 2 bundles</small><br>
+                                <small style="color: #d32f2f;">BDL-C401, BDL-C402</small>
+                            </div>
+                            <div class="list-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <strong>📦 PALLET-008 | E07-05</strong><br>
+                                <small>Discrepancies: 3 bundles (Paused)</small><br>
+                                <small style="color: #d32f2f;">BDL-D100, BDL-D101, BDL-D102</small>
+                            </div>
+                        </div>
+                        <input type="text" class="input-field" placeholder="Scan or Select Pallet ID..." value="">
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 5.3 - Rescan Discrepancy Bundles -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Rescan Bundles</span>
+                            <div class="screen-icons">
+                                <div class="icon">🔄️</div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Pallet:</span>
+                                <span class="info-value">PALLET-008</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Location:</span>
+                                <span class="info-value">E07-05</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Discrepancies:</span>
+                                <span class="info-value" style="color: #ff9800;">3</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Discrepancy Bundles to Rescan</div>
+                            <div class="lot-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <span>⚠️ BDL-D100</span>
+                            </div>
+                            <div class="lot-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <span>⚠️ BDL-D101</span>
+                            </div>
+                            <div class="lot-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <span>⚠️ BDL-D102</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <input type="text" class="input-field" placeholder="Scan Bundle Number..." value="">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary">Back</button>
+                            <button class="btn btn-primary">Complete</button>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+
+                <!-- Screen 5.4 - Bundle Found Success -->
+                <div class="ck3-device">
+                    <div class="device-header">
+                        <div class="barcode">||||| CK3-SP-07 |||||</div>
+                    </div>
+                    <div class="screen">
+                        <div class="screen-header">
+                            <span class="screen-title">Rescan Bundles</span>
+                            <div class="screen-icons">
+                                <div class="icon">🔄️</div>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-row">
+                                <span class="info-label">Pallet:</span>
+                                <span class="info-value">PALLET-008</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Discrepancies:</span>
+                                <span class="info-value" style="color: #ff9800;">2 remaining</span>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Discrepancy Bundles to Rescan</div>
+                            <div class="lot-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <span>⚠️ BDL-D101</span>
+                            </div>
+                            <div class="lot-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <span>⚠️ BDL-D102</span>
+                            </div>
+                        </div>
+
+                        <!-- Success Popup -->
+                        <div class="popup-overlay">
+                            <div class="popup-box popup-success">
+                                <div style="font-size: 3em; margin-bottom: 10px;">✅</div>
+                                <div class="popup-text">Bundle Found!</div>
+                                <p style="color: #155724; font-size: 0.9em; margin-top: 10px; font-weight: bold;">Discrepancy mark removed</p>
+                                <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+                                    <div style="color: #666; font-size: 0.85em;"><strong>Bundle:</strong> BDL-D100</div>
+                                    <div style="color: #28a745; font-size: 0.85em; margin-top: 5px;">Marked as checked</div>
+                                </div>
+                                <button class="btn btn-primary" style="margin-top: 15px; width: 100%;">Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-buttons">
+                        <div class="device-btn">⌂</div>
+                        <div class="device-btn">✕</div>
+                        <div class="device-btn">≡</div>
+                        <div class="device-btn">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 6: COMPLETION & COVERAGE -->
+        <div class="flow-section">
+            <div class="section-title">
+                <h2>Phase 6: Completion & Coverage Check</h2>
                 <p>Reports, completion summary, and next cycle preview</p>
             </div>
 
             <div class="screens-row">
-                <!-- Screen 13 - Discrepancy Report (if any) -->
+                <!-- Screen 6.1 - Discrepancy Report (if any) -->
                 <div class="ck3-device">
                     <div class="device-header">
                         <div class="barcode">||||| CK3-SP-07 |||||</div>
@@ -1134,7 +1559,7 @@
                             <p style="color: #666; font-size: 0.9em;"><strong>Email Sent To:</strong> RMC Team & Supervisors</p>
                         </div>
                         <div class="button-group">
-                            <button class = "btn btn-primary">Scan</button>
+                            <button class="btn btn-secondary">Rescan Discrepancies</button>
                             <button class="btn btn-primary">Continue</button>
                         </div>
                     </div>
@@ -1146,7 +1571,7 @@
                     </div>
                 </div>
 
-                <!-- Screen 17 - Completion Rates -->
+                <!-- Screen 6.2 - Completion Summary -->
                 <div class="ck3-device">
                     <div class="device-header">
                         <div class="barcode">||||| CK3-SP-07 |||||</div>
@@ -1212,48 +1637,52 @@
                     </div>
                 </div>
 
-                <!-- Screen 18 - Next Cycle Preview -->
+                <!-- Screen 6.3 - Customers Not Checked Alert -->
                 <div class="ck3-device">
                     <div class="device-header">
                         <div class="barcode">||||| CK3-SP-07 |||||</div>
                     </div>
                     <div class="screen">
                         <div class="screen-header">
-                            <span class="screen-title">Next Cycle Preview</span>
+                            <span class="screen-title">Coverage Alert</span>
                             <div class="screen-icons">
                                 <div class="icon"></div>
                                 <div class="icon"></div>
                             </div>
                         </div>
-                        <div class="content-box" style="background: #e3f2fd;">
-                            <div class="content-title" style="color: #1976d2;">📅 Upcoming Cycle </div>
-                            <div class="info-row">
-                                <span class="info-label">Next Count ID:</span>
-                                <span class="info-value">CC2025-002</span>
+                        <div class="alert-warning">
+                            ⚠️ CUSTOMERS PENDING CYCLE COUNT
+                        </div>
+                        <div class="content-box">
+                            <div class="content-title">Customers Yet to be Checked This Year</div>
+                            <div class="list-item" style="background: #ffebee; border-left: 4px solid #f44336;">
+                                <strong>📦 Samsung Electronics</strong><br>
+                                <small>Last Count: 2024-08-12 (14.5 months ago)</small><br>
+                                <small style="color: #d32f2f;">⚠️ Overdue</small>
                             </div>
-                            <div class="info-row">
-                                <span class="info-label">Scheduled Date:</span>
-                                <span class="info-value">2025-11-01</span>
+                            <div class="list-item" style="background: #fff9c4; border-left: 4px solid #ff9800;">
+                                <strong>📦 Intel Corporation</strong><br>
+                                <small>Last Count: 2024-12-15 (10.5 months ago)</small><br>
+                                <small style="color: #f57c00;">⏳ Due Soon</small>
+                            </div>
+                            <div class="list-item" style="background: #fff9c4; border-left: 4px solid #ff9800;">
+                                <strong>📦 Micron Technology</strong><br>
+                                <small>Last Count: 2025-01-20 (9.3 months ago)</small><br>
+                                <small style="color: #f57c00;">⏳ Approaching</small>
                             </div>
                         </div>
                         <div class="content-box">
-                            <div class="content-title">Scheduled Customers</div>
-                            <div class="list-item">
-                                <strong>Marvell</strong><br>
-                            </div>
-                            <div class="list-item">
-                                <strong>Broadcom</strong><br>
-                            </div>
-                        </div>
-                        <div class="content-box">
                             <div class="info-row">
-                                <span class="info-label">Total Coverage Status:</span>
-                                <span class="info-value" style="color: #ff9800;">In Progress (42%)</span>
+                                <span class="info-label">Coverage Status:</span>
+                                <span class="info-value" style="color: #ff9800;">In Progress (75%)</span>
                             </div>
-                           
+                            <div class="info-row">
+                                <span class="info-label">Customers Checked:</span>
+                                <span class="info-value">9 / 12</span>
+                            </div>
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-primary">Exit</button>
+                            <button class="btn btn-primary">Exit to Main</button>
                         </div>
                     </div>
                     <div class="device-buttons">

@@ -29,9 +29,9 @@ This flexible, on-demand cycle count system allows operators to generate and exe
 flowchart TD
     Start(["CK3: Main Page"]) --> Main["Display 3 Options:<br>━━━━━━━━━━━━━━━━<br>1. Generate Count<br>2. Cycle Count<br>3. Discrepancy Rescan"]
     Main --> Choice{"Operator<br>Selection?"}
-    Choice -- "1. Generate Count" --> Gen["Proceed to Generate Count<br>(Phase 1)"]
-    Choice -- "2. Cycle Count" --> CC["Proceed to Cycle Count<br>(Phase 3)"]
-    Choice -- "3. Discrepancy Rescan" --> DR["Proceed to Discrepancy Rescan<br>(Phase 6)"]
+    Choice -- Generate Count --> Gen["Proceed to Generate Count<br>(Phase 1)"]
+    Choice -- Cycle Count --> CC["Proceed to Cycle Count<br>(Phase 3)"]
+    Choice -- Discrepancy Rescan --> DR["Proceed to Discrepancy Rescan<br>(Phase 6)"]
 
     style Start fill:#90EE90,stroke:#000,stroke-width:3px,color:#000
     style Main fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
@@ -39,6 +39,9 @@ flowchart TD
     style Gen fill:#87CEEB,stroke:#000,stroke-width:2px,color:#000
     style CC fill:#87CEEB,stroke:#000,stroke-width:2px,color:#000
     style DR fill:#87CEEB,stroke:#000,stroke-width:2px,color:#000
+
+
+
 ```
 
 ---
@@ -51,23 +54,19 @@ flowchart TD
     n1 --> n2["CK3: Display Customer Selection Screen<br>Show Available Customers with Last Cycle Date"]
     n2 --> n3["Operator: Select Customer/s<br>(Multiple Selection Allowed)"]
     n3 --> n4{"System: Check Last Cycle Date<br>for Each Selected Customer"}
-    n4 -- "<3 Months Ago" --> n5["CK3: Display Error<br>━━━━━━━━━━━━━━━━<br>Cannot Generate Cycle<br>Last cycle was less than 3 months ago<br>Last Cycle Date: [Date]<br>Next Available: [Date]"]
+    n4 -- &lt;3 Months Ago --> n5["CK3: Display Error<br>━━━━━━━━━━━━━━━━<br>Cannot Generate Cycle<br>Last cycle was less than 3 months ago<br>Last Cycle Date: [Date]<br>Next Available: [Date]"]
     n5 --> n2
-    n4 -- "≥3 Months Ago" --> n6["System: Generate Cycle Count List<br>Per Selected Customer/s"]
+    n4 -- ≥3 Months Ago --> n6["System: Generate Cycle Count List<br>Per Selected Customer/s"]
     n6 --> B1["Group Pallets by Customer"]
     B1 --> B1a["Sort Pallets by Age<br>Priority: Older Pallet Numbers First"]
-    B1a --> n7["Filter pallets that have sufficient available bundles"]
-    n7 --> B1b["Select 5% Sample of Aging Pallets"]
-    B1b --> B1c["Select Sample Bundles from Sampled Pallets"]
-    B1c --> n8["Internal background refresh system"]
-    n8 --> B2["Create Cycle Count ID"]
-    B2 --> B3["Update Pallet and Bundle List in Database<br>Status: Pending<br>Record: Pallet - Lot - Bundle Location"]
-    B3 --> C1["System: Send Email Type 1<br>━━━━━━━━━━━━━━━━<br>To: RMC Team<br>Subject: Cycle Count Generated<br>Details: Count ID, Customer/s, List of Pallets/Bundles"]
+    B1b["Select 5% Sample of Aging Pallets"] --> B1c["Select 5% Sample Bundles from Sampled Pallets"]
+    B2["Create Cycle Count ID"] --> B3["Update Pallet and Bundle List<br>Record: Pallet - Lot - Bundle Location"]
+    B3 --> C1["System: Send Email Cycle Count Generated<br>━━━━━━━━━━━━━━━━<br>To: RMC Team<br>Subject: Cycle Count Generated<br>Details: Count ID, Customer/s, List of Pallets/Bundles"]
     C1 --> C2["System: Activate Weekly Reminder Email<br>Will send if cycle count remains active"]
     C2 --> Next["Cycle Count Generated Successfully<br>Return to Main Page"]
+    B1a --> B1b
+    B1c --> B2
 
-    n8@{ shape: rect}
-    n7@{ shape: rect}
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n1 color:#000
     style n2 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
@@ -77,15 +76,16 @@ flowchart TD
     style n6 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style B1 color:#000
     style B1a color:#000
-    style n7 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style B1b color:#000
     style B1c color:#000
-    style n8 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style B2 color:#000
     style B3 color:#000
     style C1 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style C2 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style Next fill:#90EE90,stroke:#000,stroke-width:3px,color:#000
+
+
+
 
 ```
 
@@ -123,15 +123,15 @@ flowchart TD
     Start(["Start: Bundle Scanning"]) --> n9["System: Initially Blocks Discrepancy Button<br>System: Auto-save Active"]
     n9 --> n1["Operator: Scan Bundles Within Pallet"]
     n1 --> n2{"System: Check if Bundle is<br>Within Sample Bundle List"}
-    n2 -- "No (Not in List)" --> n1
-    n2 -- "Yes (Valid Bundle)" --> n3["CK3: Sample Bundle is Removed from List<br>Marked as Checked<br>System: Auto-saves Progress"]
+    n2 -- No (Not in List) --> n1
+    n2 -- Yes (Valid Bundle) --> n3["CK3: Sample Bundle is Removed from List<br>Marked as Checked<br>System: Auto-saves Progress"]
     n3 --> n7{"Operator Action?"}
-    n7 -- "Continue Scanning" --> n1
-    n7 -- "All Bundles Scanned" --> n8["Proceed to Completion Verification<br>(Phase 4)"]
-    n7 -- "Pause & Resume Later" --> n10["Operator: Press Discrepancy Button<br>to Mark Bundle as Discrepancy"]
-    n10 --> n11["System: Mark Remaining Bundles as Discrepancy<br>Save Current Progress<br>Return to Main Page"]
+    n7 -- Continue Scanning --> n1
+    n7 -- All Bundles Scanned --> n8["Proceed to Completion Verification<br>(Phase 4)"]
+    n7 -- Pause & Resume Later --> n10["Operator: Press Discrepancy Button<br>to Mark Bundle as Discrepancy"]
+    n10 --> n11["System: Mark Remaining Bundles as Discrepancy<br>Pallet removed from list<br>Current Progress Saved<br>Return to Main Page"]
     n11 --> n12["To Resume: Use Discrepancy Rescan<br>from Main Page (Phase 6)"]
-    n7 -- "System Crash/Battery Loss" --> n13["System: Auto-saved Progress Retained<br>No Data Lost"]
+    n7 -- System Crash/Battery Loss --> n13["System: Auto-saved Progress Retained<br>No Data Lost"]
     n13 --> n14["Operator: Return to Main Page<br>Select Cycle Count Button<br>Select Same Cycle Count ID"]
     n14 --> n15["System: Load Saved Progress<br>Resume from Last Scanned Bundle"]
     n15 --> n1
@@ -157,34 +157,39 @@ flowchart TD
 ## 4. Pallet Completion Verification
 
 ```mermaid
+---
+config:
+  layout: dagre
+---
 flowchart TD
     Start(["Start: Pallet Completion Verification"]) --> n1{"Any Sample Bundle<br>Left in List?"}
-    n1 -- "No (All Bundles Scanned)" --> n16["System Unblocks Navigation"]
-    n1 -- "Yes (Bundles Remaining)" --> n15["System Block - Unable to Proceed"]
-    n15 --> n2["Operator: Press Back/Proceed Button<br>System: Auto-refresh Triggered"]
+    n1 -- No (All Bundles Scanned) --> n16["System: Allows to proceed"]
+    n1 -- Yes (Bundles Remaining) --> n15["System Block - Discreptancy &amp; Proceed"]
+    n15 --> n2["Operator: Press Proceed Button<br>System: Auto-refresh Triggered"]
     n2 --> n3{"Is There Any MTF/Scrap list<br>matching for bundles in List?"}
-    n3 -- "Yes (MTF/Scrap Found)" --> n4["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap List for Bundle Detected<br>Refreshing Bundles"]
+    n3 -- Yes (MTF/Scrap Found) --> n4["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap List for Bundle Detected<br>Refreshing Bundles"]
     n4 --> n5["System: Mark Sample Bundles as MTF/Scrap<br>Attempt to Replace with Different Bundle<br>Within Same Pallet"]
     n5 --> n22{"Sufficient Available<br>Bundles to Replace?"}
-    n22 -- "Yes" --> n6["CK3: Update List with Different Bundles<br>from the Same Pallet"]
+    n22 -- Yes --> n6["CK3: Update List with Different Bundles<br>from the Same Pallet"]
     n6 --> n9["Operator: Rescan Pallet"]
-    n22 -- "No (Insufficient Bundles)" --> n23["CK3: Display Error<br>━━━━━━━━━━━━━━━━<br>Not Enough Available Bundles<br>to Replace MTF/Scrap Bundles<br>Marking Pallet as Completed"]
+    n22 -- No (Insufficient Bundles) --> n23["CK3: Display Error<br>━━━━━━━━━━━━━━━━<br>Not Enough Available Bundles<br>to Replace MTF/Scrap Bundles<br>Marking Pallet as Completed"]
     n23 --> n16
-    n3 -- "No (No MTF/Scrap)" --> n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"]
-    n8 --> n9
+    n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"] --> n9
     n9 --> n10{"Bundle Found<br>on Rescan?"}
-    n10 -- "Yes" --> n12["Mark as Checked and Remove from List"]
+    n10 -- Yes --> n12["Mark as Checked and Remove from List"]
     n12 --> n1
-    n10 -- "No (Still Missing)" --> n11["Operator: Press Discrepancy Button"]
+    n10 -- No (Still Missing) --> n11["Operator: Press Discrepancy Button"]
     n11 --> n13["Operator: Scan Badge ID and Select Reason"]
     n13 --> n14["System: Bundle Marked as Discrepancy<br>Remark Saved and Compiled into Discrepancy Report"]
     n14 --> n1
     n16 --> n17["System: Mark Pallet as Completed<br>Auto-save Progress"]
     n17 --> n21["Remove Pallet from Pallet List"]
     n21 --> n18{"All Pallets in<br>Cycle Completed?"}
-    n18 -- "Yes" --> n19(["Proceed to Completion Check<br>(Phase 7)"])
-    n18 -- "No" --> n20(["Return to Pallet List<br>(Phase 2)"])
-
+    n18 -- Yes --> n19(["Proceed to Completion Check<br>(Phase 7)"])
+    n18 -- No --> n20(["Return to Pallet List<br>(Phase 2)"])
+    n3 -- No, Discrepancy --> n24["System Unblock - Discreptancy button"]
+    n24 --> n8
+    n24@{ shape: rect}
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n1 color:#000
     style n16 fill:#90EE90,stroke:#000,stroke-width:2px,color:#000
@@ -195,8 +200,8 @@ flowchart TD
     style n5 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style n22 color:#000
     style n6 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
-    style n23 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
     style n9 color:#000
+    style n23 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
     style n8 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
     style n10 color:#000
     style n12 color:#000
@@ -208,6 +213,8 @@ flowchart TD
     style n18 color:#000
     style n19 fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n20 fill:#FFF9C4,stroke:#000,stroke-width:2px,color:#000
+    style n24 fill:#FF5252,stroke:#000,stroke-width:3px,color:#FFF
+
 ```
 
 ---
@@ -254,29 +261,22 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start(["Start: Completion Check"]) --> DC1{"System: Check for<br>Discrepancies?"}
-    DC1 -- "Discrepancies Found" --> DC2["System: Generate Discrepancy Report"]
+    DC1 -- Discrepancies Found --> DC2["System: Generate Discrepancy Report"]
     DC2 --> DC3["Display Discrepancy Report:<br>━━━━━━━━━━━━━━━━━━━━<br>• Pallet - Lot - Bundle Details<br>• MTF Bundles and Replacements<br>• Reasons for Discrepancies<br>• Timestamps<br>• Operator Badge IDs"]
     DC3 --> DC4["System: Send Email Notification<br>━━━━━━━━━━━━━━━━<br>To: RMC Team &amp; Supervisors<br>Subject: Cycle Count Complete - Discrepancies Found<br>Include: Summary of Issues &amp; Attached Report"]
-    DC4 --> n1{"Operator: Review<br>Discrepancy List?"}
-    n1 -- "Yes, Rescan Discrepancies" --> n2["Go to Discrepancy Rescan<br>(Phase 5)"]
-    n1 -- "No, Finalize Report" --> DC5["CK3: Display Final Summary<br>━━━━━━━━━━━━━━━━━━━━<br>✓ Total Pallets Counted: [count]<br>✓ Total Bundles Scanned: [count]<br>⚠ Discrepancies Found: [count]<br>⚠ MTF Bundles: [count]<br>⚠ Scrap List Bundles: [count]<br>━━━━━━━━━━━━━━━━━━━━<br>Report Generated &amp; Emailed"]
-    DC1 -- "No Discrepancies" --> ND1["System: Generate Summary Report<br>All Items Accounted For"]
-    ND1 --> DC5
-    DC5 --> NEXT2["System: Update Customer Last Cycle Date<br>Mark Cycle as Completed<br>Stop Weekly Reminder Emails"]
+    DC1 -- No Discrepancies --> ND1["System: Generate Summary Report<br>All Items Accounted For"]
+    ND1 --> DC5["CK3: Display Customers that have yet to have cycle count wihin year<br>"]
+    DC5 --> NEXT2["System: Update Customer Last Cycle Date<br>Mark Cycle for Customer as Completed for the year<br>Stop Weekly Reminder Emails"]
     NEXT2 --> Restart["Return to Main Page<br>(Phase 0)"]
-    n2 --> n3["After Rescanning: Return to Completion Check"]
-    n3 --> DC1
+    DC4 --> DC5
 
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style DC1 color:#000
     style DC2 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style DC3 fill:#FFA500,stroke:#000,stroke-width:2px,color:#000
     style DC4 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
-    style n1 color:#000
-    style n2 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
-    style n3 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
-    style DC5 fill:#BBDEFB,stroke:#000,stroke-width:2px,color:#000
     style ND1 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
+    style DC5 fill:#BBDEFB,stroke:#000,stroke-width:2px,color:#000
     style NEXT2 fill:#90EE90,stroke:#000,stroke-width:2px,color:#000
     style Restart fill:#87CEEB,stroke:#000,stroke-width:2px,color:#000
 
