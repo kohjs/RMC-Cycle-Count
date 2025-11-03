@@ -288,7 +288,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    n1(["Internal background refresh system for pallet picking"]) --> n4["Scheduled (every week/everytime scrap list generated) trigger refresh of list"]
+    n1(["Internal background refresh system for pallet picking"]) --> n4["Scheduled (everytime scrap list generated) trigger refresh of list"]
     n2["Determine amount of available bundles within remaining aging pallets"] --> n3["Able to make sample size?"]
     n4 --> n7["Is sample bundle in scrap list?"]
     n3 -- No --> n5["Replace sample pallet with another pallet of the same customer with sufficient available bundles and generate a new list of sample bundles"]

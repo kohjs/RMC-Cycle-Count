@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -478,9 +482,9 @@
                             <p style="text-align: center; margin: 20px 0; color: #666;">Select Operation</p>
                         </div>
                         <div class="button-group" style="flex-direction: column;">
-                            <button class="btn btn-primary">1. Generate Count</button>
-                            <button class="btn btn-secondary">2. Cycle Count</button>
-                            <button class="btn btn-warning">3. Discrepancy Rescan</button>
+                            <a href="#phase1" class="btn btn-primary" style="text-decoration: none; text-align: center;">1. Generate Count</a>
+                            <a href="#phase2" class="btn btn-secondary" style="text-decoration: none; text-align: center;">2. Cycle Count</a>
+                            <a href="#phase5" class="btn btn-warning" style="text-decoration: none; text-align: center;">3. Discrepancy Rescan</a>
                         </div>
                     </div>
                     <div class="device-buttons">
@@ -494,7 +498,7 @@
         </div>
 
         <!-- PHASE 1: GENERATE COUNT (ON-DEMAND) -->
-        <div class="flow-section">
+        <div id="phase1" class="flow-section">
             <div class="section-title">
                 <h2>Phase 1: Generate Count (On-Demand)</h2>
                 <p>Operator authentication, customer selection, and cycle count generation</p>
@@ -741,7 +745,7 @@
         </div>
 
         <!-- PHASE 2: LOGIN & START -->
-        <div class="flow-section">
+        <div id="phase2" class="flow-section">
             <div class="section-title">
                 <h2>Phase 2: Primary Count Execution</h2>
                 <p>Operator authentication and cycle count selection</p>
@@ -1327,7 +1331,7 @@
         </div>
 
         <!-- PHASE 5: DISCREPANCY RESCAN -->
-        <div class="flow-section">
+        <div id="phase5" class="flow-section">
             <div class="section-title">
                 <h2>Phase 5: Discrepancy Rescan</h2>
                 <p>Resume paused counts or address bundles marked as discrepancies</p>
@@ -1696,5 +1700,163 @@
         </div>
 
     </div>
+
+    <script>
+        // Screen navigation system - scrolls to screens without hiding them
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all screens (CK3 devices)
+            const allScreens = document.querySelectorAll('.ck3-device');
+
+            // Function to scroll to a specific screen
+            function scrollToScreen(index) {
+                if (index >= 0 && index < allScreens.length) {
+                    allScreens[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            // Function to find current screen index based on a button
+            function getCurrentScreenIndex(button) {
+                const currentDevice = button.closest('.ck3-device');
+                return Array.from(allScreens).indexOf(currentDevice);
+            }
+
+            // Function to go to next screen
+            function nextScreen(currentIndex) {
+                if (currentIndex < allScreens.length - 1) {
+                    scrollToScreen(currentIndex + 1);
+                }
+            }
+
+            // Function to go to previous screen
+            function previousScreen(currentIndex) {
+                if (currentIndex > 0) {
+                    scrollToScreen(currentIndex - 1);
+                }
+            }
+
+            // Function to go to main menu (screen 0)
+            function goToMainMenu() {
+                scrollToScreen(0);
+            }
+
+            // Add click handlers to all buttons
+            allScreens.forEach((screen, screenIndex) => {
+                const buttons = screen.querySelectorAll('.btn');
+
+                buttons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        // Don't navigate if button is disabled
+                        if (this.classList.contains('btn-disabled')) {
+                            return;
+                        }
+
+                        // Visual feedback
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = 'scale(1)';
+                        }, 150);
+
+                        const buttonText = this.textContent.trim();
+                        const currentIndex = getCurrentScreenIndex(this);
+
+                        // Handle navigation based on button text
+                        if (buttonText.includes('Generate Count') && buttonText.includes('1.')) {
+                            // Main menu -> Phase 1 (screen 1)
+                            scrollToScreen(1);
+                        } else if (buttonText.includes('Cycle Count') && buttonText.includes('2.')) {
+                            // Main menu -> Phase 2 (screen 7)
+                            scrollToScreen(7);
+                        } else if (buttonText.includes('Discrepancy Rescan') && buttonText.includes('3.')) {
+                            // Main menu -> Phase 5 (screen 20)
+                            scrollToScreen(20);
+                        } else if (buttonText.includes('Next') || buttonText.includes('Continue')) {
+                            nextScreen(currentIndex);
+                        } else if (buttonText.includes('Back to Main') || buttonText.includes('Return to Main') || buttonText.includes('Exit to Main') || buttonText.includes('Exit')) {
+                            goToMainMenu();
+                        } else if (buttonText.includes('Back')) {
+                            previousScreen(currentIndex);
+                        } else if (buttonText === 'Generate') {
+                            // Go to next screen
+                            nextScreen(currentIndex);
+                        } else if (buttonText === 'OK') {
+                            // Close popup and scroll to next screen
+                            nextScreen(currentIndex);
+                        } else if (buttonText.includes('Submit') || buttonText.includes('Complete')) {
+                            nextScreen(currentIndex);
+                        } else if (buttonText.includes('Rescan Discrepancies')) {
+                            // Jump to Phase 5
+                            scrollToScreen(20);
+                        }
+                    });
+                });
+            });
+
+            // Main menu links still work with hash navigation
+            const mainMenuLinks = document.querySelectorAll('.button-group a.btn');
+            mainMenuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const href = this.getAttribute('href');
+                    if (href === '#phase1') {
+                        scrollToScreen(1); // First screen of Phase 1
+                    } else if (href === '#phase2') {
+                        scrollToScreen(7); // First screen of Phase 2
+                    } else if (href === '#phase5') {
+                        scrollToScreen(20); // First screen of Phase 5
+                    }
+                });
+            });
+
+            // Add hover effect to clickable items
+            const clickableItems = document.querySelectorAll('.reason-option, .list-item');
+            clickableItems.forEach(item => {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+
+            // Make input fields interactive
+            const inputFields = document.querySelectorAll('.input-field');
+            inputFields.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = '#2196f3';
+                    this.style.boxShadow = '0 0 5px rgba(33, 150, 243, 0.3)';
+                });
+
+                input.addEventListener('blur', function() {
+                    this.style.borderColor = '#1976d2';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .btn {
+                    transition: transform 0.15s ease, background-color 0.2s ease;
+                }
+                .btn:not(.btn-disabled):hover {
+                    filter: brightness(1.1);
+                    cursor: pointer;
+                }
+                .btn-disabled {
+                    cursor: not-allowed;
+                    opacity: 0.6;
+                }
+                .reason-option, .list-item {
+                    transition: transform 0.15s ease, background-color 0.2s ease;
+                }
+                .reason-option:hover, .list-item:hover {
+                    filter: brightness(0.95);
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
 </body>
 </html>
