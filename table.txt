@@ -1,6 +1,0 @@
-Customer	Cycle count Month
-AMD,ALIF, Morse, STM	Jan
-Marvell, Innovium, Cavium	Feb
-Broadcom	March
-Cypress ,IFX	May
-CISCO ,Maxlinear	June
