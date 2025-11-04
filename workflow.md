@@ -62,7 +62,7 @@ flowchart TD
     B1b["Select 5% Sample of Aging Pallets"] --> B1c["Select 5% Sample Bundles from Sampled Pallets"]
     B2["Create Cycle Count ID"] --> B3["Update Pallet and Bundle List<br>Record: Pallet - Lot - Bundle Location"]
     B3 --> C1["System: Send Email Cycle Count Generated<br>━━━━━━━━━━━━━━━━<br>To: RMC Team<br>Subject: Cycle Count Generated<br>Details: Count ID, Customer/s, List of Pallets/Bundles"]
-    C1 --> C2["System: Activate Weekly Reminder Email<br>Will send if cycle count remains active"]
+    C1 --> C2["System: Activate Reminder Email<br>Weekly reminders, Daily for last week<br>Will send if cycle count remains active"]
     C2 --> Next["Cycle Count Generated Successfully<br>Return to Main Page"]
     B1a --> B1b
     B1c --> B2
@@ -329,7 +329,7 @@ The system sends 2 types of automated emails:
   - Generation date and operator badge ID
 
 ### **Email Type 2: Weekly Reminder (Conditional)**
-- **Trigger**: Every week while a cycle count remains active (not completed)
+- **Trigger**: Every week while a cycle count remains active (not completed), **except for the last week where reminders are sent daily**
 - **Recipients**: RMC Team & Supervisors
 - **Subject**: Cycle Count Reminder - Action Required
 - **Content**:
