@@ -49,7 +49,7 @@ flowchart TD
 ## 1. Generate Count (On-Demand)
 
 ```mermaid
-flowchart TD
+flowchart TB
     Start(["Start: Generate Count"]) --> n1["Operator: Scan Badge ID"]
     n1 --> n2["CK3: Display Customer Selection Screen<br>Show Available Customers with Last Cycle Date"]
     n2 --> n3["Operator: Select Customer/s<br>(Multiple Selection Allowed)"]
@@ -63,9 +63,10 @@ flowchart TD
     B2["Create Cycle Count ID"] --> B3["Update Pallet and Bundle List<br>Record: Pallet - Lot - Bundle Location"]
     B3 --> C1["System: Send Email Cycle Count Generated<br>━━━━━━━━━━━━━━━━<br>To: RMC Team<br>Subject: Cycle Count Generated<br>Details: Count ID, Customer/s, List of Pallets/Bundles"]
     C1 --> C2["System: Activate Reminder Email<br>Weekly reminders, Daily for last week<br>Will send if cycle count remains active"]
-    C2 --> Next["Cycle Count Generated Successfully<br>Return to Main Page"]
+    C2 --> n7["Email for remaining customers not checked within the year (Once every 3 months)"]
     B1a --> B1b
     B1c --> B2
+    n7 --> Next["Cycle Count Generated Successfully<br>Return to Main Page"]
 
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n1 color:#000
@@ -157,87 +158,131 @@ flowchart TD
 ## 4. Pallet Completion Verification
 
 ```mermaid
----
-config:
-  layout: dagre
----
-flowchart TD
+flowchart TB
     Start(["Start: Pallet Completion Verification"]) --> n1{"Any Sample Bundle<br>Left in List?"}
     n1 -- No (All Bundles Scanned) --> n16["System: Allows to proceed"]
-    n1 -- Yes (Bundles Remaining) --> n15["System Block - Discreptancy &amp; Proceed"]
-    n15 --> n2["Operator: Press Proceed Button<br>System: Auto-refresh Triggered"]
-    n2 --> n3{"Is There Any MTF/Scrap list<br>matching for bundles in List?"}
-    n3 -- Yes (MTF/Scrap Found) --> n4["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap List for Bundle Detected<br>Refreshing Bundles"]
-    n4 --> n5["System: Mark Sample Bundles as MTF/Scrap<br>Attempt to Replace with Different Bundle<br>Within Same Pallet"]
-    n5 --> n22{"Sufficient Available<br>Bundles to Replace?"}
-    n22 -- Yes --> n6["CK3: Update List with Different Bundles<br>from the Same Pallet"]
-    n6 --> n9["Operator: Rescan Pallet"]
-    n22 -- No (Insufficient Bundles) --> n23["CK3: Display Error<br>━━━━━━━━━━━━━━━━<br>Not Enough Available Bundles<br>to Replace MTF/Scrap Bundles<br>Marking Pallet as Completed"]
-    n23 --> n16
-    n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"] --> n9
-    n9 --> n10{"Bundle Found<br>on Rescan?"}
-    n10 -- Yes --> n12["Mark as Checked and Remove from List"]
-    n12 --> n1
-    n10 -- No (Still Missing) --> n11["Operator: Press Discrepancy Button"]
-    n11 --> n13["Operator: Scan Badge ID and Select Reason"]
-    n13 --> n14["System: Bundle Marked as Discrepancy<br>Remark Saved and Compiled into Discrepancy Report"]
-    n14 --> n1
     n16 --> n17["System: Mark Pallet as Completed<br>Auto-save Progress"]
     n17 --> n21["Remove Pallet from Pallet List"]
     n21 --> n18{"All Pallets in<br>Cycle Completed?"}
     n18 -- Yes --> n19(["Proceed to Completion Check<br>(Phase 7)"])
     n18 -- No --> n20(["Return to Pallet List<br>(Phase 2)"])
-    n3 -- No, Discrepancy --> n24["System Unblock - Discreptancy button"]
-    n24 --> n8
-    n24@{ shape: rect}
+
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n1 color:#000
     style n16 fill:#90EE90,stroke:#000,stroke-width:2px,color:#000
-    style n15 fill:#FF5252,stroke:#000,stroke-width:3px,color:#FFF
-    style n2 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
-    style n3 color:#000
-    style n4 fill:#E1BEE7,stroke:#000,stroke-width:2px,color:#000
-    style n5 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
-    style n22 color:#000
-    style n6 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
-    style n9 color:#000
-    style n23 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
-    style n8 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
-    style n10 color:#000
-    style n12 color:#000
-    style n11 color:#000
-    style n13 color:#000
-    style n14 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
     style n17 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
     style n21 color:#000
     style n18 color:#000
     style n19 fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n20 fill:#FFF9C4,stroke:#000,stroke-width:2px,color:#000
+
+flowchart TB
+    Start(["Start: Pallet Completion Verification"]) --> n1{"Any Sample Bundle<br>Left in List?"}
+    n1 -- Yes (Bundles Remaining) --> n15["System Block - Discrepancy &amp; Proceed"]
+    n15 --> n2["Operator: Press Proceed Button<br>System: Auto-refresh Triggered"]
+    n2 --> n3{"Is There Any MTF/Scrap list<br>matching for bundles in List?"}
+    n3 -- Yes (MTF/Scrap Found) --> n4["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap List for Bundle Detected<br>Bundle Queued for Replacement System"]
+    n4 --> n5["System: Mark Sample Bundles as MTF/Scrap<br>Add to Daily Replacement Queue"]
+    n5 --> n25["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>Bundle Added to Replacement Queue<br>Marking Pallet as Pending"]
+    n25 --> n26["System: Mark Pallet as Pending Replacement"]
+    n3 -- No, Discrepancy --> n24["System Unblock - Discrepancy button"]
+    n24 --> A(["Rescan &amp; Discrepancy Handling"])
+    n26 --> n20(["Allowed to Proceed and Return to Pallet List<br>(Phase 2)"])
+    A --> n20
+
+    style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
+    style n1 color:#000
+    style n15 fill:#FF5252,stroke:#000,stroke-width:3px,color:#FFF
+    style n2 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
+    style n3 color:#000
+    style n4 fill:#E1BEE7,stroke:#000,stroke-width:2px,color:#000
+    style n5 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
+    style n25 fill:#FFF59D,stroke:#000,stroke-width:2px,color:#000
+    style n26 fill:#FFE4B5,stroke:#000,stroke-width:2px,color:#000
     style n24 fill:#FF5252,stroke:#000,stroke-width:3px,color:#FFF
+    style A fill:#FFB74D,stroke:#000,stroke-width:3px,color:#000
+    style n20 fill:#FFF9C4,stroke:#000,stroke-width:2px,color:#000
+
+---
+
+---
+flowchart TB
+    B(["Rescan/Discrepancy: MTF/Scrap Not Found"]) --> n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"]
+    n8 --> n9["Operator: Rescan Pallet"]
+    n9 --> n10{"Bundle Found<br>on Rescan?"}
+    n10 -- Yes --> n12["Mark as Checked and Remove from List"]
+    n12 --> n1(["Allowed to proceed"])
+    n10 -- No (Still Missing) --> n11["Operator: Press Discrepancy Button"]
+    n11 --> n13["Operator: Select Reason. if missing scan supervisor badge to continue"]
+    n13 --> n14["System: Bundle Marked as Discrepancy<br>Remark Saved and Compiled into Discrepancy Report"]
+    n14 --> n1
+
+    style B fill:#FFB74D,stroke:#000,stroke-width:3px,color:#000
+    style n8 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
+    style n9 color:#000
+    style n10 color:#000
+    style n12 color:#000
+    style n1 fill:#FFB74D,stroke:#000,stroke-width:3px,color:#000
+    style n11 color:#000
+    style n13 color:#000
+    style n14 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
+---
+
+---
+flowchart TB
+    D1(["Start: Replacement System<br>(Scheduled/ on demand)"]) --> D2["System: Process Replacement Queue"]
+    D2 --> D3{"Pending Pallet<br>in Queue?"}
+    D3 -- Yes --> D4["System: Retrieve all Pallet Details<br>and MTF/Scrap Bundle List"]
+    D4 --> D5{"Sufficient Available<br>Bundles to Replace?"}
+    D5 -- Yes --> D6["System: Replace MTF/Confirmed Not found Bundles<br>with Available Bundles from Same Pallet"]
+    D6 --> D7["Update Pallet Bundle List"]
+    D7 --> D8["Mark Bundle as Ready for Rescan<br>Notify operator with changes"]
+    D8 --> D9["Remove Pallet from Replacement Queue"]
+    D9 --> D3
+    D5 -- No (Insufficient Bundles) --> D10["System: Mark Pallet as Insufficient Bundles"]
+    D10 --> D11["Reflect on discrepancy page, prompt operator to scan badge to close pallet"]
+    D3 -- No --> D14(["End: Replacement System"])
+
+    style D1 fill:#4CAF50,stroke:#000,stroke-width:3px,color:#FFF
+    style D2 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
+    style D3 color:#000
+    style D4 fill:#E1BEE7,stroke:#000,stroke-width:2px,color:#000
+    style D5 color:#000
+    style D6 fill:#90EE90,stroke:#000,stroke-width:2px,color:#000
+    style D7 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
+    style D8 fill:#FFF59D,stroke:#000,stroke-width:2px,color:#000
+    style D9 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
+    style D10 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
+    style D11 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
+    style D14 fill:#4CAF50,stroke:#000,stroke-width:3px,color:#FFF
+
 
 ```
 
 ---
 
-## 5. Discrepancy Rescan
+## 5. Discrepancy Resolve
 
 ```mermaid
-flowchart TD
-    Start(["Start: Discrepancy Rescan<br>(From Main Page Button 3)"]) --> n1["Operator: Scan Badge ID"]
+flowchart TB
+    Start(["Start: Discrepancy<br>(From Main Page Button 3)"]) --> n1["Operator: Scan Badge ID"]
     n1 --> n2["CK3: Display All Pallets with Discrepancy Bundles<br>━━━━━━━━━━━━━━━━<br>Shows: Pallet ID, Location, Discrepancy Count"]
-    n2 --> n3["Operator: Select Pallet to Rescan"]
+    n2 --> n3["Operator: Select Pallet"]
     n3 --> n4["CK3: Display Bundle List for Selected Pallet<br>Shows Only Bundles Marked as Discrepancy"]
-    n4 --> n5["Operator: Scan Discrepancy Bundle"]
-    n5 --> n6{"Bundle Scanned<br>Successfully?"}
-    n6 -- "Yes (Found)" --> n7["System: Remove Discrepancy Mark<br>Mark Bundle as Checked<br>Remove from Discrepancy List<br>Auto-save Progress"]
-    n6 -- "No (Still Not Found)" --> n8["Bundle Remains Marked as Discrepancy<br>Will Appear in Final Report"]
+    n4 --> n13["Rescan Button"] & n14["Close pallet button"]
+    n5["Operator: Scan Discrepancy Bundle"] --> n6{"Bundle Scanned<br>Successfully?"}
+    n6 -- Yes (Found) --> n7["System: Remove Discrepancy Mark<br>Mark Bundle as Checked<br>Remove from Discrepancy List<br>Auto-save Progress"]
+    n6 -- No (Still Not Found) --> n8["Bundle Remains Marked as Discrepancy<br>Will Appear in Final Report"]
     n7 --> n9{"More Discrepancy<br>Bundles in Pallet?"}
     n8 --> n9
-    n9 -- "Yes" --> n5
-    n9 -- "No (All Addressed)" --> n10["System: Mark Pallet as Completed<br>Remove from Discrepancy List"]
+    n9 -- Yes --> n5
+    n9 -- No (All Addressed) --> n10["System: Mark Pallet as Completed<br>Remove from Discrepancy List"]
     n10 --> n11{"More Pallets with<br>Discrepancies?"}
-    n11 -- "Yes" --> n2
-    n11 -- "No (All Completed)" --> n12["Return to Main Page<br>or Proceed to Completion Check"]
+    n11 -- Yes --> n2
+    n11 -- No (All Completed) --> n12["Return to Main Page<br>or Proceed to Completion Check"]
+    n13 --> n5
+    n14 --> n15["Scan Supervisor Badge for confirmation"]
+    n15 --> n16["Pallet marked as closed and removed from discrepancy page"]
 
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n1 color:#000
