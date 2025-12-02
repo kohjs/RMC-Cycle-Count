@@ -175,7 +175,8 @@ flowchart TB
     style n18 color:#000
     style n19 fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n20 fill:#FFF9C4,stroke:#000,stroke-width:2px,color:#000
-
+```
+```mermaid
 flowchart TB
     Start(["Start: Pallet Completion Verification"]) --> n1{"Any Sample Bundle<br>Left in List?"}
     n1 -- Yes (Bundles Remaining) --> n15["System Block - Discrepancy &amp; Proceed"]
@@ -203,9 +204,9 @@ flowchart TB
     style A fill:#FFB74D,stroke:#000,stroke-width:3px,color:#000
     style n20 fill:#FFF9C4,stroke:#000,stroke-width:2px,color:#000
 
----
+```
 
----
+```mermaid
 flowchart TB
     B(["Rescan/Discrepancy: MTF/Scrap Not Found"]) --> n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"]
     n8 --> n9["Operator: Rescan Pallet"]
@@ -226,9 +227,8 @@ flowchart TB
     style n11 color:#000
     style n13 color:#000
     style n14 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
----
-
----
+```
+```mermaid
 flowchart TB
     D1(["Start: Replacement System<br>(Scheduled/ on demand)"]) --> D2["System: Process Replacement Queue"]
     D2 --> D3{"Pending Pallet<br>in Queue?"}
@@ -255,7 +255,6 @@ flowchart TB
     style D10 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
     style D11 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
     style D14 fill:#4CAF50,stroke:#000,stroke-width:3px,color:#FFF
-
 
 ```
 
