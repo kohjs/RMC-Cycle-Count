@@ -1,29 +1,35 @@
-# Reject Cycle Count System - Flowcharts
+# Reject Cycle Count System
 
-## Overview
+## Description:
 
-This flexible, on-demand cycle count system allows operators to generate and execute cycle counts based on workload availability, rather than fixed monthly schedules.
+Reject Management Center Cycle count system where operators pick when to count (no fixed schedule). Min 3 months between customer counts.
 
-### Key Features:
-- **On-Demand Generation**: Operators can select any customer(s) for cycle counting (minimum 3 months since last count)
-- **Multi-Customer Selection**: Generate counts for multiple customers simultaneously
-- **Auto-Save & Recovery**: System automatically saves progress for crash/battery loss recovery
-- **Pause & Resume**: Operators can pause mid-scan and resume later via Discrepancy Rescan
-- **Flexible Workflow**: 3 main entry points from main page for different operational needs
-- **Automated Notifications**: Weekly reminders and coverage alerts keep team informed
+### Workflow
+- On-demand counting - pick any customer that is due
+- Multiple customers at once
+- Auto-saves everything (crash recovery built-in)
+- Pause anytime, resume later
+- Auto reminders depending on time
 
-### System Phases:
-0. **Main Page Navigation** - Central hub with 3 operational buttons
-1. **Generate Count (On-Demand)** - Create cycle counts for selected customers with 3-month validation
-2. **Cycle Count - Primary Count Execution** - Access and begin counting pallets
-3. **Bundle Scanning & Pause/Resume** - Scan bundles with pause/resume capability and crash recovery
-4. **Pallet Completion Verification** - Validate completeness with auto-refresh and MTF/Scrap handling
-5. **Discrepancy Rescan** - Address bundles marked as discrepancies
-6. **Completion & Coverage Check** - Generate reports and close cycle counts
+### The Flow:
+0. **Main Page** - Picking progress (3 buttons)
+1. **Generate Count** - Creating count for customers (checks 3-month rule)
+2. **Cycle Count** - Start scanning pallets
+3. **Bundle Scanning** - Scan bundles, pause if needed
+4. **Pallet Check** - Verify completion, handle MTF/Scrap
+5. **Discrepancy Rescan** - Fix any issues/Continue from checkpoint
+6. **Documentation** - Reports & emails
 
 ---
 
 ## 0. Main Page Navigation
+
+Navigation Menu
+Generate Count - Start cycle by selecting customer and generating count id and list
+
+Cycle count - Resume cycle count by scanning cycle id for customer
+
+Discrepancy - Resolve discrepancy goes back to pallets marked with discrepancy, able to view replaced lots and initiate rescan/close pallet entirely with approval
 
 ```mermaid
 flowchart TD
@@ -31,7 +37,7 @@ flowchart TD
     Main --> Choice{"Operator<br>Selection?"}
     Choice -- Generate Count --> Gen["Proceed to Generate Count<br>(Phase 1)"]
     Choice -- Cycle Count --> CC["Proceed to Cycle Count<br>(Phase 3)"]
-    Choice -- Discrepancy Rescan --> DR["Proceed to Discrepancy Rescan<br>(Phase 6)"]
+    Choice -- Discrepancy --> DR["Proceed to Discrepancy Rescan<br>(Phase 6)"]
 
     style Start fill:#90EE90,stroke:#000,stroke-width:3px,color:#000
     style Main fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
@@ -47,6 +53,7 @@ flowchart TD
 ---
 
 ## 1. Generate Count (On-Demand)
+Generation of customer cycle count (need to be within 3 mos. since last generation)
 
 ```mermaid
 flowchart TB
@@ -94,6 +101,8 @@ flowchart TB
 
 ## 2. Cycle Count - Primary Count Execution
 
+Initialising count, finding pallet and verifying
+
 ```mermaid
 flowchart TD
     Start(["Start: Cycle Count<br>(From Main Page Button 2)"]) --> n1["Operator: Scan Badge and Scan/Input Cycle Count ID on CK3"]
@@ -119,23 +128,25 @@ flowchart TD
 
 ## 3. Bundle Scanning & Pause/Resume
 
+Start bundle scanning process flow with cross checking and handling of different scenarios
+
 ```mermaid
-flowchart TD
-    Start(["Start: Bundle Scanning"]) --> n9["System: Initially Blocks Discrepancy Button<br>System: Auto-save Active"]
+flowchart TB
+    Start(["Start: Bundle Scanning"]) --> n9["System: Initially Blocks Discrepancy Button<br><br>"]
     n9 --> n1["Operator: Scan Bundles Within Pallet"]
-    n1 --> n2{"System: Check if Bundle is<br>Within Sample Bundle List"}
-    n2 -- No (Not in List) --> n1
-    n2 -- Yes (Valid Bundle) --> n3["CK3: Sample Bundle is Removed from List<br>Marked as Checked<br>System: Auto-saves Progress"]
+    n2{"System: Check if Bundle is<br>Within Sample Bundle List"} -- Yes (Valid Bundle) --> n3["CK3: Sample Bundle is Removed from List<br>Marked as Checked<br>System: Auto-saves Progress"]
     n3 --> n7{"Operator Action?"}
     n7 -- Continue Scanning --> n1
     n7 -- All Bundles Scanned --> n8["Proceed to Completion Verification<br>(Phase 4)"]
     n7 -- Pause & Resume Later --> n10["Operator: Press Discrepancy Button<br>to Mark Bundle as Discrepancy"]
-    n10 --> n11["System: Mark Remaining Bundles as Discrepancy<br>Pallet removed from list<br>Current Progress Saved<br>Return to Main Page"]
+    n10 --> n11["System: Mark Remaining Bundles as Discrepancy<br>Enter reason : To be continued<br>Pallet removed from list<br>Current Progress Saved<br>Return to Main Page"]
     n11 --> n12["To Resume: Use Discrepancy Rescan<br>from Main Page (Phase 6)"]
-    n7 -- System Crash/Battery Loss --> n13["System: Auto-saved Progress Retained<br>No Data Lost"]
+    n7 -- System Crash/Battery Loss --> n13["System: Auto-saves Progress"]
     n13 --> n14["Operator: Return to Main Page<br>Select Cycle Count Button<br>Select Same Cycle Count ID"]
-    n14 --> n15["System: Load Saved Progress<br>Resume from Last Scanned Bundle"]
+    n14 --> n15["Resume from Last Scanned Bundle"]
     n15 --> n1
+    n2 -- No --> n1
+    n1 --> n2
 
     n9@{ shape: rect}
     style Start fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
@@ -150,12 +161,14 @@ flowchart TD
     style n12 fill:#E1F5FE,stroke:#000,stroke-width:2px,color:#000
     style n13 fill:#90EE90,stroke:#000,stroke-width:2px,color:#000
     style n14 color:#000
-    style n15 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
+    style n15 fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#00
 ```
 
 ---
 
 ## 4. Pallet Completion Verification
+
+All Sample bundles checked and verified
 
 ```mermaid
 flowchart TB
@@ -176,6 +189,7 @@ flowchart TB
     style n19 fill:#87CEEB,stroke:#000,stroke-width:3px,color:#000
     style n20 fill:#FFF9C4,stroke:#000,stroke-width:2px,color:#000
 ```
+Sample bundles unchecked -> Discrepancy logging
 ```mermaid
 flowchart TB
     Start(["Start: Pallet Completion Verification"]) --> n1{"Any Sample Bundle<br>Left in List?"}
@@ -205,7 +219,7 @@ flowchart TB
     style n20 fill:#FFF9C4,stroke:#000,stroke-width:2px,color:#000
 
 ```
-
+Rescan/File discrepancy for bundles not found (need supervisor badge)
 ```mermaid
 flowchart TB
     B(["Rescan/Discrepancy: MTF/Scrap Not Found"]) --> n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"]
@@ -228,6 +242,7 @@ flowchart TB
     style n13 color:#000
     style n14 fill:#FFB6C1,stroke:#000,stroke-width:2px,color:#000
 ```
+Replacement system scheduled to run each day for replacing MTF and bundles confirmed to be not found
 ```mermaid
 flowchart TB
     D1(["Start: Replacement System<br>(Scheduled/ on demand)"]) --> D2["System: Process Replacement Queue"]
@@ -261,6 +276,8 @@ flowchart TB
 ---
 
 ## 5. Discrepancy Resolve
+
+Handling discrepancy/ Resuming paused pallets
 
 ```mermaid
 flowchart TB
@@ -302,6 +319,8 @@ flowchart TB
 
 ## 6. Completion & Coverage Check
 
+System generates summary and sends emails.
+
 ```mermaid
 flowchart TD
     Start(["Start: Completion Check"]) --> DC1{"System: Check for<br>Discrepancies?"}
@@ -328,7 +347,9 @@ flowchart TD
 
 ---
 
-## Internal background refresh
+## Pallet picking logic
+
+System auto-refreshes sample lists when scrap lists get generated.
 
 ```mermaid
 flowchart TD
@@ -358,94 +379,84 @@ flowchart TD
 
 ---
 
-## Email Notification System
+## Email Notifications
 
-The system sends 2 types of automated emails:
+The system sends these emails automatically:
 
-### **Email Type 1: Cycle Count Generated**
-- **Trigger**: When a new cycle count is generated (Phase 1)
-- **Recipients**: RMC Team
-- **Subject**: Cycle Count Generated
-- **Content**:
-  - Cycle Count ID
-  - Customer name(s) selected
-  - List of pallets and bundles to check
-  - Generation date and operator badge ID
+### Type 1: Cycle Count Generated
+**When:** New cycle count created (Phase 1)  
+**To:** RMC Team  
+**Contains:**
+- Cycle Count ID
+- Customer(s) selected
+- Pallet lists
+- Generation date & operator badge
 
-### **Email Type 2: Weekly Reminder (Conditional)**
-- **Trigger**: Every week while a cycle count remains active (not completed), **except for the last week where reminders are sent daily**
-- **Recipients**: RMC Team & Supervisors
-- **Subject**: Cycle Count Reminder - Action Required
-- **Content**:
-  - Cycle Count ID
-  - Customer name(s)
-  - Days since cycle was generated
-  - Current status (% of pallets completed)
-  - Reminder to complete the count
-- **Stop Condition**: Automatically stops when cycle is marked as completed (Phase 6)
+### Type 2: Weekly Reminders after activation
+**When:** Every week while count is active (daily in final week)  
+**To:** RMC Team & Supervisors  
+**Contains:**
+- Cycle Count ID
+- Customer(s)
+- Days until due date
+- Date when count started
+- Current progress (%)
+- **Stops:** When cycle completed (Phase 6)
 
-### **Email Type 3: Customers Not Checked Alert**
-- **Trigger**: Configurable schedule (e.g., monthly or quarterly)
-- **Recipients**: RMC Team & Management
-- **Subject**: Cycle Count Coverage Alert
-- **Content**:
-  - List of customers who haven't been cycle counted yet
-  - Last cycle date for each customer
-  - Customers approaching or past the 3-month threshold
-  - Recommended action items
+### Type 3: Customers Not Checked (Every 3 Months)
+**When:** Every 3 Months
+**To:** RMC Team & Management  
+**Contains:**
+- Customers not checked within the year
+- Last cycle dates
 
-### **Email Type 4: Completion with Discrepancies**
-- **Trigger**: When cycle count is completed with discrepancies (Phase 6)
-- **Recipients**: RMC Team & Supervisors
-- **Subject**: Cycle Count Complete - Discrepancies Found
-- **Content**:
-  - Discrepancy report attached
-  - Summary of issues found
-  - Total discrepancy count
-  - MTF/Scrap bundle counts
+### Type 4: Completion summary
+**When:** Cycle done (Phase 6)  
+**To:** RMC Team & Supervisors  
+**Contains:**
+- Full discrepancy report if any
+- Issue summary
+- Total discrepancy count if any
+- MTF/Scrap bundle counts
 
 ---
 
 ## Process Flow Summary
 
 ```
-Phase 0: Main Page Navigation
-    ├─ Option 1 → Phase 1: Generate Count (On-Demand)
-    │              └─ Returns to Main Page after generation
+Phase 0: Main Page
+    ├─ Button 1 → Phase 1: Generate Count
+    │              └─ Back to Main Page
     │
-    ├─ Option 2 → Phase 2: Cycle Count - Primary Count Execution
+    ├─ Button 2 → Phase 2: Start Counting
     │              ↓
-    │              Phase 3: Bundle Scanning & Pause/Resume
-    │              ↓ (can pause → Phase 5: Discrepancy Rescan)
-    │              ↓ (can crash/resume → auto-save/restore)
+    │              Phase 3: Scan Bundles
+    │              ↓ (pause → Phase 5 or crash recovery)
     │              ↓
-    │              Phase 4: Pallet Completion Verification
-    │              ↓ (loops back to Phase 2 if more pallets)
-    │              ↓ (when all pallets counted)
-    │              Phase 6: Completion & Coverage Check
-    │              ↓ (may go to Phase 5 for discrepancy rescan)
-    │              └─ Returns to Main Page (Phase 0)
+    │              Phase 4: Check Pallet
+    │              ↓ (loops to Phase 2 if more pallets)
+    │              ↓
+    │              Phase 6: Finish
+    │              └─ Back to Main Page
     │
-    └─ Option 3 → Phase 5: Discrepancy Rescan
-                   └─ Can return to Phase 6 or Main Page
+    └─ Button 3 → Phase 5: Fix Discrepancies
+                   └─ Back to Phase 6 or Main Page
 
-Workflow is flexible and on-demand:
-- Operators can generate counts for any customer (>3 months since last)
-- Multiple customers can be selected at once
-- Progress auto-saves for crash recovery
-- Discrepancies can be rescanned at any time
+
 ```
 
 ---
 
 ## Color Legend
 
-- 🟢 **Green (#90EE90)**: Success/Completion states
-- 🔵 **Blue (#87CEEB)**: Transition/Connection points between phases, Start/End nodes
-- 🟡 **Yellow (#FFE4B5)**: System automated actions (scheduling, notifications, save functions, data generation)
-- 🟠 **Orange (#FFA500)**: Warnings (discrepancies, MTF alerts, missing items)
-- 🔴 **Pink (#FFB6C1)**: Errors/Flags requiring attention (discrepancy logging, error messages)
-- 🔴 **Red (#FF5252)**: Critical System Block (requires supervisor override)
-- 🟣 **Purple (#E1BEE7)**: MTF-related actions (MTF bundle display and handling)
-- 🔷 **Light Blue (#E1F5FE)**: Information display (rescan operations, summary displays)
-- 🟦 **Teal/Cyan (#B2DFDB)**: Refresh/Update actions (save progress, update lists, replacements)
+What the colors mean in the flowcharts:
+
+- Green (#90EE90) - Success/completion
+- Blue (#87CEEB) - Phase transitions, start/end
+- Yellow (#FFE4B5) - System operations (auto-save, emails, scheduling)
+- Orange (#FFA500) - Notifications (discrepancies, MTF alerts, missing items)
+- Pink (#FFB6C1) - Errors/needs attention (discrepancy logs, error messages)
+- Red (#FF5252) - System blocks prevention of progressing
+- Purple (#E1BEE7) - MTF-related
+- Light Blue (#E1F5FE) - Info displays (rescan ops, summaries)
+- Teal (#B2DFDB) - Updates happening (saving progress, updating lists, replacements)
