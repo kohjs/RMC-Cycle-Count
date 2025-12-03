@@ -33,7 +33,7 @@ Discrepancy - Resolve discrepancy goes back to pallets marked with discrepancy, 
 
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TD
     Start(["CK3: Main Page"]) --> Main["Display 3 Options:<br>━━━━━━━━━━━━━━━━<br>1. Generate Count<br>2. Cycle Count<br>3. Discrepancy"]
     Main --> Choice{"Operator<br>Selection?"}
@@ -58,7 +58,7 @@ flowchart TD
 Generation of customer cycle count (need to be within 3 mos. since last generation)
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TB
     Start(["Start: Generate Count"]) --> n1["Operator: Scan Badge ID"]
     n1 --> n2["CK3: Display Customer Selection Screen<br>Show Available Customers with Last Cycle Date"]
@@ -107,7 +107,7 @@ flowchart TB
 Initialising count, finding pallet and verifying
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TD
     Start(["Start: Cycle Count<br>(From Main Page Button 2)"]) --> n1["Operator: Scan Badge and Scan/Input Cycle Count ID on CK3"]
     n1 --> H["CK3: Display Pallet List<br>Show Pallet IDs, Bundle Count & Locations<br>System: Auto-save enabled for session"]
@@ -135,7 +135,7 @@ flowchart TD
 Start bundle scanning process flow with cross checking and handling of different scenarios
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TB
     Start(["Start: Bundle Scanning"]) --> n9["System: Initially Blocks Discrepancy Button<br><br>"]
     n9 --> n1["Operator: Scan Bundles Within Pallet"]
@@ -176,7 +176,7 @@ flowchart TB
 All Sample bundles checked and verified
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TB
     Start(["Start: Pallet Completion Verification"]) --> n1{"Any Sample Bundle<br>Left in List?"}
     n1 -- No (All Bundles Scanned) --> n16["System: Allows to proceed"]
@@ -197,7 +197,7 @@ flowchart TB
 ```
 Sample bundles unchecked -> Discrepancy logging
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TB
     Start(["Start: Pallet Completion Verification"]) --> n1{"Any Sample Bundle<br>Left in List?"}
     n1 -- Yes (Bundles Remaining) --> n15["System Block - Discrepancy &amp; Proceed"]
@@ -228,7 +228,7 @@ flowchart TB
 ```
 Rescan/File discrepancy for bundles not found (need supervisor badge)
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TB
     B(["Rescan/Discrepancy: MTF/Scrap Not Found"]) --> n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"]
     n8 --> n9["Operator: Rescan Pallet"]
@@ -252,7 +252,7 @@ flowchart TB
 ```
 Replacement system scheduled to run each day for replacing MTF and bundles confirmed to be not found
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TB
     D1(["Start: Replacement System<br>(Scheduled/ on demand)"]) --> D2["System: Process Replacement Queue"]
     D2 --> D3{"Pending Pallet<br>in Queue?"}
@@ -289,7 +289,7 @@ flowchart TB
 Handling discrepancy/ Resuming paused pallets
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TB
     Start(["Start: Discrepancy<br>(From Main Page Button 3)"]) --> n1["Operator: Scan Badge ID"]
     n1 --> n2["CK3: Display All Pallets with Discrepancy Bundles<br>━━━━━━━━━━━━━━━━<br>Shows: Pallet ID, Location, Discrepancy Count"]
@@ -332,7 +332,7 @@ flowchart TB
 System generates summary and sends emails.
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TD
     Start(["Start: Completion Check"]) --> DC1{"System: Check for<br>Discrepancies?"}
     DC1 -- Discrepancies Found --> DC2["System: Generate Discrepancy Report"]
@@ -363,7 +363,7 @@ flowchart TD
 System auto-refreshes sample lists when scrap lists get generated.
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+%%{init: {'theme':'base', 'themeVariables': {'edgeLabelBackground':'#fff', 'primaryColor':'#fff', 'primaryBorderColor':'#999', 'lineColor':'#d3d3d3'}}}%%
 flowchart TD
     n1(["Internal background refresh system for pallet picking"]) --> n4["Scheduled (everytime scrap list generated) trigger refresh of list"]
     n2["Determine amount of available bundles within remaining aging pallets"] --> n3["Able to make sample size?"]
