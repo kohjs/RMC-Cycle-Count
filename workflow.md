@@ -33,11 +33,11 @@ Discrepancy - Resolve discrepancy goes back to pallets marked with discrepancy, 
 
 ```mermaid
 flowchart TD
-    Start(["CK3: Main Page"]) --> Main["Display 3 Options:<br>━━━━━━━━━━━━━━━━<br>1. Generate Count<br>2. Cycle Count<br>3. Discrepancy Rescan"]
+    Start(["CK3: Main Page"]) --> Main["Display 3 Options:<br>━━━━━━━━━━━━━━━━<br>1. Generate Count<br>2. Cycle Count<br>3. Discrepancy"]
     Main --> Choice{"Operator<br>Selection?"}
     Choice -- Generate Count --> Gen["Proceed to Generate Count<br>(Phase 1)"]
     Choice -- Cycle Count --> CC["Proceed to Cycle Count<br>(Phase 3)"]
-    Choice -- Discrepancy --> DR["Proceed to Discrepancy Rescan<br>(Phase 6)"]
+    Choice -- Discrepancy --> DR["Proceed to Discrepancy<br>(Phase 6)"]
 
     style Start fill:#90EE90,stroke:#000,stroke-width:3px,color:#000
     style Main fill:#B2DFDB,stroke:#000,stroke-width:2px,color:#000
@@ -221,6 +221,10 @@ flowchart TB
 ```
 Rescan/File discrepancy for bundles not found (need supervisor badge)
 ```mermaid
+---
+config:
+  layout: fixed
+---
 flowchart TB
     B(["Rescan/Discrepancy: MTF/Scrap Not Found"]) --> n8["CK3: Display Text Box<br>━━━━━━━━━━━━━━━━<br>MTF/Scrap Not Found<br>Prompt Operator to Rescan"]
     n8 --> n9["Operator: Rescan Pallet"]
@@ -229,7 +233,7 @@ flowchart TB
     n12 --> n1(["Allowed to proceed"])
     n10 -- No (Still Missing) --> n11["Operator: Press Discrepancy Button"]
     n11 --> n13["Operator: Select Reason. if missing scan supervisor badge to continue"]
-    n13 --> n14["System: Bundle Marked as Discrepancy<br>Remark Saved and Compiled into Discrepancy Report"]
+    n13 --> n14["System: Bundle Marked as Not Found<br>Remark Saved and Compiled into Discrepancy Report"]
     n14 --> n1
 
     style B fill:#FFB74D,stroke:#000,stroke-width:3px,color:#000
