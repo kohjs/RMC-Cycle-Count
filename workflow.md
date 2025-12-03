@@ -32,6 +32,7 @@ Cycle count - Resume cycle count by scanning cycle id for customer
 Discrepancy - Resolve discrepancy goes back to pallets marked with discrepancy, able to view replaced lots and initiate rescan/close pallet entirely with approval
 
 ```mermaid
+ %%{init: {"themeVariables": {"background": "#FFFFFF", "textColor": "#333333"}}}%%
 flowchart TD
     Start(["CK3: Main Page"]) --> Main["Display 3 Options:<br>━━━━━━━━━━━━━━━━<br>1. Generate Count<br>2. Cycle Count<br>3. Discrepancy"]
     Main --> Choice{"Operator<br>Selection?"}
